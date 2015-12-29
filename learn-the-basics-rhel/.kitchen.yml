@@ -1,0 +1,21 @@
+---
+driver:
+  name: vagrant
+  #provider: vmware_fusion
+
+provisioner:
+  name: policyfile_zero
+  client_rb:
+    audit_mode: :enabled
+
+# Uncomment the following verifier to leverage Inspec instead of Busser (the
+# default verifier)
+verifier:
+  name: inspec
+
+platforms:
+  - name: centos-6.5
+
+suites:
+  - name: default
+    attributes:
