@@ -1,5 +1,5 @@
 {
-  "revision_id": "8040d09117186e08f45c5c68263c31e9e4f3235084c1be5b3bed61ae051e2d2a",
+  "revision_id": "e09e3ed1bb7d8f12519c586d2e644a968b6fc371ca390f925422fe642d375781",
   "name": "learn-the-basics-rhel",
   "run_list": [
     "recipe[learn-the-basics-rhel::default]"
@@ -7,15 +7,15 @@
   "cookbook_locks": {
     "learn-the-basics-rhel": {
       "version": "0.1.0",
-      "identifier": "dd4a48dd43a6c7621aba97cb99a88b9b723b6682",
-      "dotted_decimal_identifier": "62287646663354055.27613936430586280.153499752687234",
+      "identifier": "a1546604fc102bdf990e271f24182db704258b8d",
+      "dotted_decimal_identifier": "45410268397441067.62937205871420440.50264071834509",
       "source": ".",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": null,
-        "revision": null,
-        "working_tree_clean": true,
+        "revision": "1f8752f821ca731dedcb6c1308685381aa680ea7",
+        "working_tree_clean": false,
         "published": false,
         "synchronized_remote_branches": [
 
@@ -23,6 +23,26 @@
       },
       "source_options": {
         "path": "."
+      }
+    },
+    "workflow": {
+      "version": "0.1.0",
+      "identifier": "de9a9b162942bf3b38cfc7bc9cf0444a5b0c0556",
+      "dotted_decimal_identifier": "62657435712176831.16669488686341360.75086145783126",
+      "source": "../workflow",
+      "cache_key": null,
+      "scm_info": {
+        "scm": "git",
+        "remote": null,
+        "revision": "1f8752f821ca731dedcb6c1308685381aa680ea7",
+        "working_tree_clean": false,
+        "published": false,
+        "synchronized_remote_branches": [
+
+        ]
+      },
+      "source_options": {
+        "path": "../workflow"
       }
     }
   },
@@ -37,11 +57,21 @@
       [
         "learn-the-basics-rhel",
         ">= 0.0.0"
+      ],
+      [
+        "workflow",
+        ">= 0.0.0"
       ]
     ],
     "dependencies": {
-      "learn-the-basics-rhel (0.1.0)": [
+      "workflow (0.1.0)": [
 
+      ],
+      "learn-the-basics-rhel (0.1.0)": [
+        [
+          "workflow",
+          ">= 0.0.0"
+        ]
       ]
     }
   }
