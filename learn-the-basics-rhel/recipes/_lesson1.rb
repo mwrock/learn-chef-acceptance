@@ -3,6 +3,7 @@
 # Recipe:: _lesson1
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
+# Configure a resource
 working_dir = File.join(ENV['HOME'], 'chef-repo')
 
 motd_file = File.join(working_dir, 'motd')
