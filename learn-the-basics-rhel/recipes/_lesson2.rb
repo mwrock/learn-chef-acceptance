@@ -1,12 +1,10 @@
 #
 # Cookbook Name:: learn-the-basics-rhel
-# Recipe:: _lesson1
+# Recipe:: _lesson2
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
 # Configure a package and service
 working_dir = File.join(ENV['HOME'], 'chef-repo')
-
-motd_file = File.join(working_dir, 'motd')
 
 output_dir = File.join(ENV['HOME'], cookbook_name, 'configure-a-package-and-service')
 
@@ -41,7 +39,7 @@ workflow_execute 'sudo chef-apply webserver.rb --no-color --force-formatter' do
   writer writers['step1_1']
 end
 
-control_group 'step1' do
+control_group 'lesson2, step1' do
   control 'validate output' do
     describe file(writers['step1'].stdout_path) do
       its(:content) { should match /^Recipe: \(chef-apply cookbook\)::\(chef-apply recipe\)$/ }
@@ -64,7 +62,7 @@ workflow_execute 'sudo chef-apply webserver.rb --no-color --force-formatter' do
   writer writers['step2']
 end
 
-control_group 'step2' do
+control_group 'lesson2, step2' do
   control 'validate output' do
     describe file(writers['step2'].stdout_path) do
       its(:content) { should match /^\s{2}\* yum_package\[httpd\] action install \(up to date\)$/ }
@@ -77,7 +75,6 @@ control_group 'step2' do
 end
 
 # 3. Add a home page
-
 cookbook_file File.join(working_dir, 'webserver.rb') do
   source 'webserver_3.rb'
 end
@@ -87,7 +84,7 @@ workflow_execute 'sudo chef-apply webserver.rb --no-color --force-formatter' do
   writer writers['step3']
 end
 
-control_group 'step3' do
+control_group 'lesson2, step3' do
   control 'validate output' do
     describe file(writers['step3'].stdout_path) do
       its(:content) { should match /^\s{4}\- create new file \/var\/www\/html\/index\.html$/ }
@@ -98,8 +95,7 @@ control_group 'step3' do
 end
 
 # 4. Confirm your web site is running
-
-control_group 'step4' do
+control_group 'lesson2, step4' do
   control 'validate output' do
     describe command('curl localhost') do
       its(:stdout) { should match <<-EOF.chomp

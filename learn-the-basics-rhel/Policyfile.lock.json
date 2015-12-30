@@ -1,5 +1,5 @@
 {
-  "revision_id": "432ea61f27f3d5fb8f677da547ec8cf0795dfa94da7d2a919476d6abed0289bc",
+  "revision_id": "82ca792310bf31cc362f499e1ea6fc285727fb8cc87e7328ee7eba828260d7f1",
   "name": "learn-the-basics-rhel",
   "run_list": [
     "recipe[learn-the-basics-rhel::default]"
@@ -7,14 +7,14 @@
   "cookbook_locks": {
     "learn-the-basics-rhel": {
       "version": "0.1.0",
-      "identifier": "e4054dafca504d0678d1ebdfe239bc6746fb7372",
-      "dotted_decimal_identifier": "64182125909921869.1821692861080121.207151758537586",
+      "identifier": "669db8c2bb77374e2e5cfa51ae333d9dac9b4355",
+      "dotted_decimal_identifier": "28883864491095863.22006025054957107.67747415016277",
       "source": ".",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": null,
-        "revision": "1bb0c6b6b75b3806e7e9ba3d96a2ae38e2bc1f9c",
+        "revision": "231a3fa1695a26857b0529642cc69f20ea489d17",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
@@ -34,7 +34,7 @@
       "scm_info": {
         "scm": "git",
         "remote": null,
-        "revision": "1bb0c6b6b75b3806e7e9ba3d96a2ae38e2bc1f9c",
+        "revision": "231a3fa1695a26857b0529642cc69f20ea489d17",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [

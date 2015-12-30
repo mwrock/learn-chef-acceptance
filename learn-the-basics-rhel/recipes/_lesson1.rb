@@ -44,7 +44,7 @@ workflow_file_glob File.join(working_dir, 'motd') do
   dest step2_motd
 end
 
-control_group 'step2' do
+control_group 'lesson1, step2' do
   control 'validate output' do
     describe file(writers['step2'].stdout_path) do
       its(:content) { should match /^Recipe: \(chef-apply cookbook\)::\(chef-apply recipe\)$/ }
@@ -68,7 +68,6 @@ control_group 'step2' do
 end
 
 # Run the command a second time
-
 workflow_execute 'chef-apply hello.rb --no-color --force-formatter' do
   cwd working_dir
   writer writers['step2_1']
@@ -81,7 +80,7 @@ workflow_file_glob File.join(working_dir, 'motd') do
   dest step2_1_motd
 end
 
-control_group 'step2_1' do
+control_group 'lesson1, step2_1' do
   control 'validate output' do
     describe file(writers['step2_1'].stdout_path) do
       its(:content) { should match /^Recipe: \(chef-apply cookbook\)::\(chef-apply recipe\)$/ }
@@ -99,7 +98,6 @@ control_group 'step2_1' do
 end
 
 # 3. Update the MOTD file's contents
-
 cookbook_file File.join(working_dir, 'hello.rb') do
   source 'hello_3.rb'
 end
@@ -116,7 +114,7 @@ workflow_file_glob File.join(working_dir, 'motd') do
   dest step3_motd
 end
 
-control_group 'step3' do
+control_group 'lesson1, step3' do
   control 'validate output' do
     describe file(writers['step3'].stdout_path) do
       its(:content) { should match /\-hello world/ }
@@ -131,7 +129,6 @@ control_group 'step3' do
 end
 
 # 4. Ensure the MOTD file's contents are not changed by anyone else
-
 execute "echo 'hello robots' > motd" do
   cwd working_dir
 end
@@ -148,7 +145,7 @@ workflow_file_glob File.join(working_dir, 'motd') do
   dest step4_motd
 end
 
-control_group 'step4' do
+control_group 'lesson1, step4' do
   control 'validate output' do
     describe file(writers['step4'].stdout_path) do
       its(:content) { should match /\-hello robots/ }
@@ -163,7 +160,6 @@ control_group 'step4' do
 end
 
 # 5. Delete the MOTD file
-
 cookbook_file File.join(working_dir, 'goodbye.rb') do
   source 'goodbye.rb'
 end
@@ -173,7 +169,7 @@ workflow_execute 'chef-apply goodbye.rb --no-color --force-formatter' do
   writer writers['step5']
 end
 
-control_group 'step5' do
+control_group 'lesson1, step5' do
   control 'validate output' do
     describe file(writers['step5'].stdout_path) do
       its(:content) { should match /\s{2}\* file\[motd\] action delete/ }
