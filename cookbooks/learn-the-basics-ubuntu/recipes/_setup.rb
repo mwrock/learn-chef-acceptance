@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: learn-the-basics-rhel
+# Cookbook Name:: learn-the-basics-ubuntu
 # Recipe:: _setup
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
