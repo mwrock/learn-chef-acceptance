@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: learn-the-basics-rhel
-# Recipe:: _lesson1
+# Recipe:: _setup
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
 execute 'install Chef DK' do
@@ -16,3 +16,6 @@ control_group 'validate Chef DK installation' do
     end
   end
 end
+
+package 'curl'
+package 'tree'

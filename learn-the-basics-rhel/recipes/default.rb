@@ -6,3 +6,4 @@
 include_recipe 'learn-the-basics-rhel::_setup'
 include_recipe 'learn-the-basics-rhel::_lesson1'
 include_recipe 'learn-the-basics-rhel::_lesson2'
+include_recipe 'learn-the-basics-rhel::_lesson3'
