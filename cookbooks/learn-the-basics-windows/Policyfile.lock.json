@@ -1,0 +1,78 @@
+{
+  "revision_id": "02c0f5f7a0d5b2a20697f73ea33e43dc7ac75c4c49df58d7b68b745e929a9603",
+  "name": "learn-the-basics-windows",
+  "run_list": [
+    "recipe[learn-the-basics-windows::default]"
+  ],
+  "cookbook_locks": {
+    "learn-the-basics-windows": {
+      "version": "0.1.0",
+      "identifier": "76e30a907dda071a0836b53d82f17ff719a70d1d",
+      "dotted_decimal_identifier": "33463681765202439.7327380456440561.140699264027933",
+      "source": ".",
+      "cache_key": null,
+      "scm_info": {
+        "scm": "git",
+        "remote": null,
+        "revision": "85d99b8340fe5d049f581b248010cf00330a4e7e",
+        "working_tree_clean": true,
+        "published": true,
+        "synchronized_remote_branches": [
+          "origin/master"
+        ]
+      },
+      "source_options": {
+        "path": "."
+      }
+    },
+    "workflow": {
+      "version": "0.1.0",
+      "identifier": "5dcffc083691dc102fc7470b4135ce0b5dd2f2b3",
+      "dotted_decimal_identifier": "26405854210593244.4556132564287797.226548214067891",
+      "source": "../workflow",
+      "cache_key": null,
+      "scm_info": {
+        "scm": "git",
+        "remote": null,
+        "revision": "85d99b8340fe5d049f581b248010cf00330a4e7e",
+        "working_tree_clean": true,
+        "published": true,
+        "synchronized_remote_branches": [
+          "origin/master"
+        ]
+      },
+      "source_options": {
+        "path": "../workflow"
+      }
+    }
+  },
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "solution_dependencies": {
+    "Policyfile": [
+      [
+        "learn-the-basics-windows",
+        ">= 0.0.0"
+      ],
+      [
+        "workflow",
+        ">= 0.0.0"
+      ]
+    ],
+    "dependencies": {
+      "workflow (0.1.0)": [
+
+      ],
+      "learn-the-basics-windows (0.1.0)": [
+        [
+          "workflow",
+          ">= 0.0.0"
+        ]
+      ]
+    }
+  }
+}
