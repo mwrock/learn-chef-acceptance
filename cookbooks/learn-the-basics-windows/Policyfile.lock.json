@@ -1,24 +1,24 @@
 {
-  "revision_id": "bcbb528dae89137e9e7fda13a3a95f64b60f56ab5d93981f59455e5441c49c27",
-  "name": "learn-the-basics-rhel",
+  "revision_id": "02c0f5f7a0d5b2a20697f73ea33e43dc7ac75c4c49df58d7b68b745e929a9603",
+  "name": "learn-the-basics-windows",
   "run_list": [
-    "recipe[learn-the-basics-rhel::default]"
+    "recipe[learn-the-basics-windows::default]"
   ],
   "cookbook_locks": {
-    "learn-the-basics-rhel": {
+    "learn-the-basics-windows": {
       "version": "0.1.0",
-      "identifier": "e25472eb19de4106a8809b444769be04aa579595",
-      "dotted_decimal_identifier": "63706197283954241.1874120174487401.208927247013269",
+      "identifier": "76e30a907dda071a0836b53d82f17ff719a70d1d",
+      "dotted_decimal_identifier": "33463681765202439.7327380456440561.140699264027933",
       "source": ".",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
-        "remote": "https://github.com/learn-chef/learn-chef-acceptance.git",
-        "revision": "e8406e68c1f01bf1899e58df776596c4f5fbbfcc",
-        "working_tree_clean": false,
+        "remote": null,
+        "revision": "85d99b8340fe5d049f581b248010cf00330a4e7e",
+        "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
-          "origin/tp/t1-windows"
+          "origin/master"
         ]
       },
       "source_options": {
@@ -33,12 +33,12 @@
       "cache_key": null,
       "scm_info": {
         "scm": "git",
-        "remote": "https://github.com/learn-chef/learn-chef-acceptance.git",
-        "revision": "e8406e68c1f01bf1899e58df776596c4f5fbbfcc",
-        "working_tree_clean": false,
+        "remote": null,
+        "revision": "85d99b8340fe5d049f581b248010cf00330a4e7e",
+        "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
-          "origin/tp/t1-windows"
+          "origin/master"
         ]
       },
       "source_options": {
@@ -55,7 +55,7 @@
   "solution_dependencies": {
     "Policyfile": [
       [
-        "learn-the-basics-rhel",
+        "learn-the-basics-windows",
         ">= 0.0.0"
       ],
       [
@@ -67,7 +67,7 @@
       "workflow (0.1.0)": [
 
       ],
-      "learn-the-basics-rhel (0.1.0)": [
+      "learn-the-basics-windows (0.1.0)": [
         [
           "workflow",
           ">= 0.0.0"

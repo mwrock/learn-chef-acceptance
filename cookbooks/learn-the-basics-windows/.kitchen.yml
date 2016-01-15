@@ -1,0 +1,26 @@
+---
+driver:
+  name: vagrant
+
+transport:
+  username: Administrator
+  password: Pass@word1
+  
+provisioner:
+  name: chef_zero
+  client_rb:
+    audit_mode: :enabled
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: windows-2012R2
+    driver_config:
+      box: mwrock/Windows2012R2
+
+suites:
+  - name: default
+    run_list:
+      - recipe[learn-the-basics-windows::default]
+    attributes:
