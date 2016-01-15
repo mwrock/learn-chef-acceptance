@@ -1,11 +1,14 @@
-package 'apache2'
+powershell_script 'Install IIS' do
+  code 'Add-WindowsFeature Web-Server'
+  guard_interpreter :powershell_script
+  not_if "(Get-WindowsFeature -Name Web-Server).Installed"
+end
 
-service 'apache2' do
-  supports :status => true
+service 'w3svc' do
   action [:enable, :start]
 end
 
-file '/var/www/html/index.html' do
+file 'c:\inetpub\wwwroot\Default.htm' do
   content '<html>
   <body>
     <h1>hello world</h1>

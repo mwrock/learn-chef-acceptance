@@ -1,3 +1,3 @@
-file 'motd' do
+file '/tmp/motd' do
   action :delete
 end

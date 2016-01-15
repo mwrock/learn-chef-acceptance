@@ -10,8 +10,8 @@ settings_ini = File.join(working_dir, 'settings.ini')
 
 output_dir = 'C:/Users/Administrator/configure-a-resource'
 
-writers = Hash[%w(step3 step3_1 step4 step5 step6).map { 
-  |step|[step, OutputPath.new(File.join(output_dir, step))] 
+writers = Hash[%w(step3 step3_1 step4 step5 step6).map {
+  |step|[step, OutputPath.new(File.join(output_dir, step))]
 }]
 
 directory output_dir do
@@ -22,10 +22,10 @@ writers.each_value do |writer|
 end
 
 # 1. Ensure you have Administrator privileges
- 
+
 # 2. Set up your working directory
 directory working_dir do
-  action [:delete, :create]
+  action [:create]
   recursive true
 end
 
@@ -49,13 +49,12 @@ end
 control_group 'lesson1, step3' do
   control 'validate output' do
     describe file(writers['step3'].stdout_path) do
-    #   its(:content) { should match /^Recipe: \(chef-apply cookbook\)::\(chef-apply recipe\)$/ }
-    #   its(:content) { should match /^\s{2}\* file\[motd\] action create$/ }
-    #   its(:content) { should match /^\s{4}- create new file motd$/ }
-    #   its(:content) { should match /^\s{4}- update content in file motd from none to [a-z0-9]*$/ }
-    #   its(:content) { should match /^\s{4}--- motd/ }
-    #   its(:content) { should match /^\s{4}@@ \-1 \+1,2 @@$/ }
-    #   its(:content) { should match /^\s{4}\+greeting=hello world$/ }
+      its(:content) { should match /^Recipe: \(chef-apply cookbook\)::\(chef-apply recipe\)$/ }
+      its(:content) { should match /^\s{2}\* file\[C:\\Users\\Administrator\\chef\-repo\\settings\.ini\] action create$/ }
+      its(:content) { should match /^\s{4}- create new file C:\\Users\\Administrator\\chef\-repo\\settings\.ini/ }
+      its(:content) { should match /^\s{4}- update content in file C:\\Users\\Administrator\\chef\-repo\\settings\.ini/ }
+      its(:content) { should match /^\s{4}@@ \-1 \+1,2 @@$/ }
+      its(:content) { should match /^\s{4}\+greeting=hello world$/ }
     end
   end
   control 'validate result' do
@@ -84,8 +83,8 @@ end
 control_group 'lesson1, step3_1' do
   control 'validate output' do
     describe file(writers['step3_1'].stdout_path) do
-    #   its(:content) { should match /^Recipe: \(chef-apply cookbook\)::\(chef-apply recipe\)$/ }
-    #   its(:content) { should match /^\s{2}\* file\[motd\] action create \(up to date\)/ }
+      its(:content) { should match /^Recipe: \(chef-apply cookbook\)::\(chef-apply recipe\)$/ }
+      its(:content) { should match /^\s{2}\* file\[C:\\Users\\Administrator\\chef\-repo\\settings\.ini\] action create \(up to date\)/ }
     end
   end
   control 'validate result' do

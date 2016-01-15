@@ -1,5 +1,5 @@
 {
-  "revision_id": "82ca792310bf31cc362f499e1ea6fc285727fb8cc87e7328ee7eba828260d7f1",
+  "revision_id": "bcbb528dae89137e9e7fda13a3a95f64b60f56ab5d93981f59455e5441c49c27",
   "name": "learn-the-basics-rhel",
   "run_list": [
     "recipe[learn-the-basics-rhel::default]"
@@ -7,18 +7,18 @@
   "cookbook_locks": {
     "learn-the-basics-rhel": {
       "version": "0.1.0",
-      "identifier": "669db8c2bb77374e2e5cfa51ae333d9dac9b4355",
-      "dotted_decimal_identifier": "28883864491095863.22006025054957107.67747415016277",
+      "identifier": "e25472eb19de4106a8809b444769be04aa579595",
+      "dotted_decimal_identifier": "63706197283954241.1874120174487401.208927247013269",
       "source": ".",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
-        "remote": null,
-        "revision": "231a3fa1695a26857b0529642cc69f20ea489d17",
+        "remote": "https://github.com/learn-chef/learn-chef-acceptance.git",
+        "revision": "e8406e68c1f01bf1899e58df776596c4f5fbbfcc",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
-          "origin/master"
+          "origin/tp/t1-windows"
         ]
       },
       "source_options": {
@@ -27,18 +27,18 @@
     },
     "workflow": {
       "version": "0.1.0",
-      "identifier": "de9a9b162942bf3b38cfc7bc9cf0444a5b0c0556",
-      "dotted_decimal_identifier": "62657435712176831.16669488686341360.75086145783126",
+      "identifier": "5dcffc083691dc102fc7470b4135ce0b5dd2f2b3",
+      "dotted_decimal_identifier": "26405854210593244.4556132564287797.226548214067891",
       "source": "../workflow",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
-        "remote": null,
-        "revision": "231a3fa1695a26857b0529642cc69f20ea489d17",
+        "remote": "https://github.com/learn-chef/learn-chef-acceptance.git",
+        "revision": "e8406e68c1f01bf1899e58df776596c4f5fbbfcc",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
-          "origin/master"
+          "origin/tp/t1-windows"
         ]
       },
       "source_options": {
