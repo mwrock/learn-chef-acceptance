@@ -56,7 +56,7 @@ control_group 'lesson1, step2' do
 /Compiling Cookbooks/,
 /WARN: Node .+ has an empty run list/,
 /Converging 1 resources/,
-/Recipe: @recipe_files::\/home\/root\/hello.rb/,
+/Recipe: @recipe_files::\/root\/chef\-repo\/hello.rb/,
 /\s{2}* file\[\/tmp\/motd\] action create/,
 /\s{4}\- create new file \/tmp\/motd/,
 /\s{4}\- update content in file \/tmp\/motd from none to .+/,
@@ -107,7 +107,7 @@ control_group 'lesson1, step2_1' do
 /Compiling Cookbooks.../,
 /WARN: Node .+ has an empty run list/,
 /Converging 1 resources/,
-/Recipe: @recipe_files::\/home\/root\/chef\-repo\/hello.rb/,
+/Recipe: @recipe_files::\/root\/chef\-repo\/hello.rb/,
 /\s{2}* file\[\/tmp\/motd\] action create \(up to date\)/,
 /Running handlers:/,
 /Running handlers complete/,
@@ -159,7 +159,7 @@ control_group 'lesson1, step3' do
 end
 
 # 4. Ensure the MOTD file's contents are not changed by anyone else
-execute "echo 'hello robots' > motd" do
+execute "echo 'hello robots' > /tmp/motd" do
   cwd working_dir
 end
 

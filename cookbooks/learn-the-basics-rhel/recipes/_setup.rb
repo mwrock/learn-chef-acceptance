@@ -7,7 +7,7 @@ package 'curl'
 package 'tree'
 
 execute 'install Chef DK' do
-  command 'curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -c current -P chefdk'
+  command 'curl https://omnitruck.chef.io/install.sh | bash -s -- -c current -P chefdk'
   not_if 'which chef'
 end
 

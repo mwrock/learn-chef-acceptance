@@ -8,8 +8,8 @@ working_dir = File.join(ENV['HOME'], 'chef-repo')
 
 output_dir = File.join(ENV['HOME'], cookbook_name, 'configure-a-package-and-service')
 
-writers = Hash[%w(step1 step1_1 step2 step3 step4).map { 
-  |step|[step, OutputPath.new(File.join(output_dir, step))] 
+writers = Hash[%w(step1 step1_1 step2 step3 step4).map {
+  |step|[step, OutputPath.new(File.join(output_dir, step))]
 }]
 
 directory output_dir do
@@ -29,12 +29,12 @@ cookbook_file File.join(working_dir, 'webserver.rb') do
   source 'webserver_1.rb'
 end
 
-workflow_execute 'sudo chef-apply webserver.rb --no-color --force-formatter' do
+workflow_execute 'sudo chef-client --local-mode webserver.rb --no-color --force-formatter' do
   cwd working_dir
   writer writers['step1']
 end
 
-workflow_execute 'sudo chef-apply webserver.rb --no-color --force-formatter' do
+workflow_execute 'sudo chef-client --local-mode webserver.rb --no-color --force-formatter' do
   cwd working_dir
   writer writers['step1_1']
 end
@@ -42,12 +42,18 @@ end
 control_group 'lesson2, step1' do
   control 'validate output' do
     describe file(writers['step1'].stdout_path) do
-      its(:content) { should match /^Recipe: \(chef-apply cookbook\)::\(chef-apply recipe\)$/ }
-      its(:content) { should match /^\s{2}\* yum_package\[httpd\] action install$/ }
-      its(:content) { should match /^\s{4}\- install version 2\.2\.15\-47\.el6\.centos\.1 of package httpd$/ }
+      [
+        /WARN: No config file/,
+        /WARN: No cookbooks directory/,
+        /Converging 1 resources/,
+        /\* yum_package\[httpd\] action install/,
+        /Chef Client finished, 1/
+      ].each do |mater|
+        its(:content) { should match matcher }
+      end
     end
     describe file(writers['step1_1'].stdout_path) do
-      its(:content) { should match /^\s{2}\* yum_package\[httpd\] action install \(up to date\)$/ }
+      its(:content) { should match /yum_package\[httpd\] action install \(up to date\)/ }
     end
   end
 end
@@ -57,7 +63,7 @@ cookbook_file File.join(working_dir, 'webserver.rb') do
   source 'webserver_2.rb'
 end
 
-workflow_execute 'sudo chef-apply webserver.rb --no-color --force-formatter' do
+workflow_execute 'sudo chef-client --local-mode webserver.rb --no-color --force-formatter' do
   cwd working_dir
   writer writers['step2']
 end
@@ -65,11 +71,15 @@ end
 control_group 'lesson2, step2' do
   control 'validate output' do
     describe file(writers['step2'].stdout_path) do
-      its(:content) { should match /^\s{2}\* yum_package\[httpd\] action install \(up to date\)$/ }
-      its(:content) { should match /^\s{2}\* service\[httpd\] action enable$/ }
-      its(:content) { should match /^\s{4}\- enable service service\[httpd\]$/ }
-      its(:content) { should match /^\s{2}\* service\[httpd\] action start$/ }
-      its(:content) { should match /^\s{4}\- start service service\[httpd\]$/ }
+      [
+        /^\s{2}\* yum_package\[httpd\] action install \(up to date\)$/,
+        /^\s{2}\* service\[httpd\] action enable$/,
+        /^\s{4}\- enable service service\[httpd\]$/,
+        /^\s{2}\* service\[httpd\] action start$/,
+        /^\s{4}\- start service service\[httpd\]$/
+      ].each do |matcher|
+        its(:content) { should match matcher }
+      end
     end
   end
 end
@@ -79,7 +89,7 @@ cookbook_file File.join(working_dir, 'webserver.rb') do
   source 'webserver_3.rb'
 end
 
-workflow_execute 'sudo chef-apply webserver.rb --no-color --force-formatter' do
+workflow_execute 'sudo chef-client --local-mode webserver.rb --no-color --force-formatter' do
   cwd working_dir
   writer writers['step3']
 end
