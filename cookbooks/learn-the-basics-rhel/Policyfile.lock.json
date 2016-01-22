@@ -1,5 +1,5 @@
 {
-  "revision_id": "4bf68fefde4b1a8503cea763e4e4c782ac41cee8a22f97dd334fd37a21e20e9f",
+  "revision_id": "31642905661ab681f826fcdf604b955ba93b2913c4d6f53c5f9cbd1eed9d321f",
   "name": "learn-the-basics-rhel",
   "run_list": [
     "recipe[learn-the-basics-rhel::default]"
@@ -7,18 +7,18 @@
   "cookbook_locks": {
     "learn-the-basics-rhel": {
       "version": "0.1.0",
-      "identifier": "81c5302cf72028ad9e19cdd05eeea718f09abc79",
-      "dotted_decimal_identifier": "36527082699169832.48869004635299566.183725557726329",
+      "identifier": "057a33b417417f751a144f2b9e19417b7db6e6c4",
+      "dotted_decimal_identifier": "1541737366897023.32961246805073433.71998645921476",
       "source": ".",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": null,
-        "revision": "6da9d69e4612d998d7cf971d60841e5d37bbb2b2",
+        "revision": "0df42738a275eec349542d7d0500959bd3fd2062",
         "working_tree_clean": false,
-        "published": true,
+        "published": false,
         "synchronized_remote_branches": [
-          "origin/master"
+
         ]
       },
       "source_options": {
@@ -27,18 +27,18 @@
     },
     "workflow": {
       "version": "0.1.0",
-      "identifier": "5dcffc083691dc102fc7470b4135ce0b5dd2f2b3",
-      "dotted_decimal_identifier": "26405854210593244.4556132564287797.226548214067891",
+      "identifier": "e0aeb9f95badd81d76c6534b538bd89f15a3b93d",
+      "dotted_decimal_identifier": "63242508558904792.8293368497656715.238177774451005",
       "source": "../workflow",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": null,
-        "revision": "6da9d69e4612d998d7cf971d60841e5d37bbb2b2",
+        "revision": "0df42738a275eec349542d7d0500959bd3fd2062",
         "working_tree_clean": false,
-        "published": true,
+        "published": false,
         "synchronized_remote_branches": [
-          "origin/master"
+
         ]
       },
       "source_options": {
@@ -64,14 +64,14 @@
       ]
     ],
     "dependencies": {
-      "workflow (0.1.0)": [
-
-      ],
       "learn-the-basics-rhel (0.1.0)": [
         [
           "workflow",
           ">= 0.0.0"
         ]
+      ],
+      "workflow (0.1.0)": [
+
       ]
     }
   }
