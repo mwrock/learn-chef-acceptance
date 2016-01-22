@@ -1,125 +1,64 @@
 require 'open3'
-require_relative '../libraries/output_path.rb'
-require_relative '../libraries/task_helpers.rb'
-require_relative '../libraries/command_helpers.rb'
+include LearnChef::Workflow
 
-property :control_group_name, kind_of: String, name_property: true
-property :working_directory, kind_of: String, required: true
-property :cache_directory, kind_of: String, required: true
-property :before, kind_of: Object, default: nil, required: false
-property :commands, kind_of: [Object, Array], default: [], required: false
-property :after, kind_of: Object, default: nil, required: false
-property :validates, kind_of: Object, default: nil, required: false
-property :audits, kind_of: [Object, Array], default: [], required: false
-property :variables, kind_of: Hash, default: {}, required: false
+# this is used to name the subdirectory where the output (stdout, stderr, exit code) is written.
+property :name, String, name_property: true
+# the command to run.
+property :command, String, required: true
+# the directory to run the command.
+property :cwd, String, required: true
+# directory to write output to.
+property :cache, String, required: false, default: nil
+# the shell to run the command from. options are :bash and :powershell.
+property :shell, Symbol, required: false, default: :bash
 
 action :run do
-  context = LearnChef::Workflow::TaskContext.new(
-    working_directory,
-    cache_directory,
-    variables,
-    run_context,
-    cookbook_name
-  )
-
-  apply_commands(before, context) unless before.nil?
-  apply_commands(commands, context) unless commands.nil?
-  apply_commands(after, context) unless after.nil?
-
-  audits2 = [audits].flatten.reject {|a| a.nil?}
-  puts "$$$$$$2"
-  puts audits2
-  unless audits2.empty?
-    puts "$$$$$$3"
-    control_group control_group_name do
-      audits2.each do |audit|
-        case audit[:subject]
-        when :stdout
-          audit_stdout(context, audit[:directory], audit[:verb], audit[:matchers])
-        end
-      end
-    end
+  # Ensure working directory exists.
+  directory cwd do
+    recursive true
   end
 
-  #apply_audits([audits].flatten.reject {|a| a.nil?}, context) unless audits.nil?
-  # unless validates.nil?
-  #   control_group control_group_name do
-  #     apply_commands(validates, context)
-  #   end
-  # end
-
-  #{ subject: :stdout, directory: './2', verb: :matches, targets: :expected_stdout },
-  #{ subject: :stdout, directory: './2/more', verb: :matches, /^hello world$/ }
-
-  # stdout_str, stderr_str, status = Open3.capture3(command, chdir: cwd)
-  # file writer.stdout_path do
-  #   content stdout_str
-  # end
-  # file writer.stderr_path do
-  #   content stderr_str
-  # end
-  # file writer.status_path do
-  #   content status.exitstatus.to_s
-  # end
-  # file writer.command_path do
-  #   content command
-  # end
-end
-
-def copy_cookbook_file(source, destination)
-  LearnChef::Workflow::CopyCookbookFile.new(source, destination)
-end
-
-def cache_command(command, relative_output_directory)
-  LearnChef::Workflow::CacheCommand.new(command, relative_output_directory)
-end
-
-def cache_file(source_glob, relative_output_directory, preserve = true)
-  LearnChef::Workflow::CacheFile.new(source_glob, relative_output_directory, preserve)
-end
-
-def cached_stdout(relative_output_directory, expectation, matchers)
-  LearnChef::Workflow::CachedStdout.new(relative_output_directory, expectation, matchers)
-end
-
-def audit_stdout(context, directory, verb, matchers)
-  stdout_file = CachedHelpers.stdout_file(File.join(context.cache_directory, directory))
-  control "verify #{stdout_file}" do
-    describe file(stdout_file) do
-      CachedHelpers.normalize_matchers(matchers, context.variables).each do |matcher|
-        case verb
-        when :match
-          puts "HI!!222"
-          its (:content) { should match matcher }
-        end
-      end
+  # Generate final command to run.
+  case shell
+  when :bash
+    # If bash, just pass through.
+    cmd = command
+  when :powershell
+    # If powershell, write the command to a temporary script.
+    script_path = ::File.join(Chef::Config[:file_cache_path], 'temp.ps1')
+    file script_path do
+      content command
     end
+    cmd = "powershell -File #{script_path}"
   end
-end
 
-# def apply_audits(audits, context)
-#   puts "$$$$$$2"
-#   puts audits
-#   unless audits.empty?
-#     puts "$$$$$$3"
-#     control_group control_group_name do
-#       audits.each do |audit|
-#         case audit[:subject]
-#         when :stdout
-#           audit_stdout(context, audit[:directory], audit[:verb], audit[:matchers])
-#         end
-#       end
-#     end
-#   end
-# end
+  # Run the command.
+  options = {}
+  options[:chdir] = cwd unless cwd.nil?
+  stdout_str, stderr_str, status = Open3.capture3(cmd, options)
 
-def apply_commands(commands, context)
-  if commands.respond_to?('each')
-    commands.each do |command|
-      command.apply(context)
+  # Write the result to disk.
+  unless cache.nil?
+    # Ensure cache directory exists.
+    directory ::File.join(cache, name) do
+      recursive true
     end
-  else
-    # commands is a scalar.
-    commands.apply(context)
+
+    # Write stdout.
+    file stdout_file(cache, name) do
+      content stdout_str
+    end
+    # Write stderr.
+    file stderr_file(cache, name) do
+      content stderr_str
+    end
+    # Write exit code.
+    file status_file(cache, name) do
+      content status.exitstatus.to_s
+    end
+    # Write the command (helps with debugging).
+    file command_file(cache, name) do
+      content command
+    end
   end
 end
