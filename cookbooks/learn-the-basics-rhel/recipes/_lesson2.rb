@@ -3,74 +3,90 @@
 # Recipe:: _lesson2
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
+#---
 # Configure a package and service
-working_dir = File.join(ENV['HOME'], 'chef-repo')
+#---
 
-output_dir = File.join(ENV['HOME'], cookbook_name, 'configure-a-package-and-service')
+working = File.join(ENV['HOME'], 'chef-repo')
+cache = File.join(ENV['HOME'], '.acceptance/configure-a-package-and-service')
 
-writers = Hash[%w(step1 step1_1 step2 step3 step4).map {
-  |step|[step, OutputPath.new(File.join(output_dir, step))]
-}]
-
-directory output_dir do
-  recursive true
-end
-writers.each_value do |writer|
-  directory writer.base_path
-end
-
-directory working_dir do
-  action [:create]
+directory working do
+  action [:delete, :create]
   recursive true
 end
 
+#---
 # 1. Install the Apache package
-cookbook_file File.join(working_dir, 'webserver.rb') do
-  source 'webserver_1.rb'
+#---
+
+# Write webserver.rb.
+file File.join(working, 'webserver.rb') do
+  content <<-EOF.strip_heredoc
+    package 'httpd'
+  EOF
 end
 
-workflow_execute 'sudo chef-client --local-mode webserver.rb --no-color --force-formatter' do
-  cwd working_dir
-  writer writers['step1']
+# Run chef-client.
+workflow_task '2.1.1' do
+  cwd working
+  command 'sudo chef-client --local-mode webserver.rb --no-color --force-formatter'
+  cache cache
 end
 
-workflow_execute 'sudo chef-client --local-mode webserver.rb --no-color --force-formatter' do
-  cwd working_dir
-  writer writers['step1_1']
+# Run chef-client again.
+workflow_task '2.1.2' do
+  cwd working
+  command 'sudo chef-client --local-mode webserver.rb --no-color --force-formatter'
+  cache cache
 end
 
-control_group 'lesson2, step1' do
+f1_1 = stdout_file(cache, '2.1.1')
+f1_2 = stdout_file(cache, '2.1.2')
+control_group '2.1' do
   control 'validate output' do
-    describe file(writers['step1'].stdout_path) do
+    describe file(f1_1) do
       [
         /WARN: No config file/,
         /WARN: No cookbooks directory/,
         /Converging 1 resources/,
         /\* yum_package\[httpd\] action install/,
         /Chef Client finished, 1/
-      ].each do |mater|
+      ].each do |matcher|
         its(:content) { should match matcher }
       end
     end
-    describe file(writers['step1_1'].stdout_path) do
+    describe file(f1_2) do
       its(:content) { should match /yum_package\[httpd\] action install \(up to date\)/ }
     end
   end
 end
 
+#---
 # 2. Start and enable the Apache service
-cookbook_file File.join(working_dir, 'webserver.rb') do
-  source 'webserver_2.rb'
+#---
+
+# Write webserver.rb.
+file File.join(working, 'webserver.rb') do
+  content <<-EOF.strip_heredoc
+    package 'httpd'
+
+    service 'httpd' do
+      action [:enable, :start]
+    end
+  EOF
 end
 
-workflow_execute 'sudo chef-client --local-mode webserver.rb --no-color --force-formatter' do
-  cwd working_dir
-  writer writers['step2']
+# Run chef-client.
+workflow_task '2.2.1' do
+  cwd working
+  command 'sudo chef-client --local-mode webserver.rb --no-color --force-formatter'
+  cache cache
 end
 
-control_group 'lesson2, step2' do
+f2_2 = stdout_file(cache, '2.2.1')
+control_group '2.2' do
   control 'validate output' do
-    describe file(writers['step2'].stdout_path) do
+    describe file(f2_2) do
       [
         /^\s{2}\* yum_package\[httpd\] action install \(up to date\)$/,
         /^\s{2}\* service\[httpd\] action enable$/,
@@ -84,19 +100,40 @@ control_group 'lesson2, step2' do
   end
 end
 
+#---
 # 3. Add a home page
-cookbook_file File.join(working_dir, 'webserver.rb') do
-  source 'webserver_3.rb'
+#---
+
+# Write webserver.rb.
+file File.join(working, 'webserver.rb') do
+  content <<-EOF.strip_heredoc
+    package 'httpd'
+
+    service 'httpd' do
+      action [:enable, :start]
+    end
+
+    file '/var/www/html/index.html' do
+      content '<html>
+      <body>
+        <h1>hello world</h1>
+      </body>
+    </html>'
+    end
+  EOF
 end
 
-workflow_execute 'sudo chef-client --local-mode webserver.rb --no-color --force-formatter' do
-  cwd working_dir
-  writer writers['step3']
+# Run chef-client.
+workflow_task '2.3.1' do
+  cwd working
+  command 'sudo chef-client --local-mode webserver.rb --no-color --force-formatter'
+  cache cache
 end
 
-control_group 'lesson2, step3' do
+f2_3 = stdout_file(cache, '2.3.1')
+control_group '2.3' do
   control 'validate output' do
-    describe file(writers['step3'].stdout_path) do
+    describe file(f2_3) do
       its(:content) { should match /^\s{4}\- create new file \/var\/www\/html\/index\.html$/ }
       its(:content) { should match /^\s{4}\- update content in file .+ from none/ }
       its(:content) { should match /^\s{4}\+\<html\>/ }
@@ -104,18 +141,29 @@ control_group 'lesson2, step3' do
   end
 end
 
+#---
 # 4. Confirm your web site is running
-control_group 'lesson2, step4' do
+#---
+
+# Run chef-client.
+workflow_task '2.4.1' do
+  cwd working
+  command 'curl localhost'
+  cache cache
+end
+
+f2_4 = stdout_file(cache, '2.4.1')
+control_group '2.4' do
   control 'validate output' do
-    describe command('curl localhost') do
-      its(:stdout) { should match <<-EOF.chomp
-<html>
-  <body>
-    <h1>hello world</h1>
-  </body>
-</html>
-EOF
-}
+    describe file(f2_4) do
+      its(:content) { should match <<-EOF.strip_heredoc.chomp
+        <html>
+          <body>
+            <h1>hello world</h1>
+          </body>
+        </html>
+      EOF
+      }
     end
   end
 end

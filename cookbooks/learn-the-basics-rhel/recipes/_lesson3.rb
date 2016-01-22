@@ -3,88 +3,121 @@
 # Recipe:: _lesson3
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
+#---
 # Make your recipe more manageable
-repo_dir = File.join(ENV['HOME'], 'chef-repo')
-cookbooks_dir = File.join(ENV['HOME'], 'chef-repo', 'cookbooks')
+#---
 
-output_dir = File.join(ENV['HOME'], cookbook_name, 'make-your-recipe-more-manageable')
+repo = File.join(ENV['HOME'], 'chef-repo')
+cookbooks = File.join(repo, 'cookbooks')
+cache = File.join(ENV['HOME'], '.acceptance/make-your-recipe-more-manageable')
 
-writers = Hash[%w(step1 step1_1 step2 step2_1 step3 step4).map { 
-  |step|[step, OutputPath.new(File.join(output_dir, step))] 
-}]
-
-directory output_dir do
-  recursive true
-end
-writers.each_value do |writer|
-  directory writer.base_path
-end
-
-[repo_dir, cookbooks_dir].each do |dir|
+[repo, cookbooks].each do |dir|
   directory dir do
     action [:create]
     recursive true
   end
 end
 
+#---
 # 1. Create a cookbook
-workflow_execute 'chef generate cookbook learn_chef_httpd' do
-  cwd cookbooks_dir
-  writer writers['step1']
+#---
+
+# Create cookbook.
+workflow_task '3.1.1' do
+  cwd cookbooks
+  command 'chef generate cookbook learn_chef_httpd'
+  cache cache
 end
 
-workflow_execute 'tree' do
-  cwd cookbooks_dir
-  writer writers['step1_1']
+# Run tree.
+workflow_task '3.1.2' do
+  cwd cookbooks
+  command 'tree'
+  cache cache
 end
 
-control_group 'lesson3, step1' do
+f1_2 = stdout_file(cache, '3.1.2')
+control_group '3.1' do
   control 'validate output' do
-    describe file(writers['step1_1'].stdout_path) do
+    describe file(f1_2) do
       its(:content) { should match /11 directories, 9 files/ }
     end
   end
 end
 
+#---
 # 2. Create a template
-workflow_execute 'chef generate template learn_chef_httpd index.html' do
-  cwd cookbooks_dir
-  writer writers['step2']
+#---
+
+# Create template.
+workflow_task '3.2.1' do
+  cwd cookbooks
+  command 'chef generate template learn_chef_httpd index.html'
+  cache cache
 end
 
-workflow_execute 'tree' do
-  cwd cookbooks_dir
-  writer writers['step2_1']
+# Run tree.
+workflow_task '3.2.2' do
+  cwd cookbooks
+  command 'tree'
+  cache cache
 end
 
-control_group 'lesson3, step2' do
+f2_2 = stdout_file(cache, '3.2.2')
+control_group '3.2' do
   control 'validate output' do
-    describe file(writers['step2_1'].stdout_path) do
+    describe file(f2_2) do
         its(:content) { should match /13 directories, 10 files/ }
     end
   end
 end
 
-cookbook_file File.join(cookbooks_dir, 'learn_chef_httpd/templates/default/index.html.erb') do
-  source 'index.html.erb'
+file File.join(cookbooks, 'learn_chef_httpd/templates/default/index.html.erb') do
+  content <<-EOF.strip_heredoc
+    <html>
+      <body>
+        <h1>hello world</h1>
+      </body>
+    </html>
+  EOF
 end
 
+#---
 # 3. Update the recipe to reference the HTML template
-cookbook_file File.join(cookbooks_dir, 'learn_chef_httpd/recipes/default.rb') do
-  source 'default_3.rb'
+#---
+
+# Update recipe.
+file File.join(cookbooks, 'learn_chef_httpd/recipes/default.rb') do
+  content <<-EOF.strip_heredoc
+    package 'httpd'
+
+    service 'httpd' do
+      action [:enable, :start]
+    end
+
+    template '/var/www/html/index.html' do
+      source 'index.html.erb'
+    end
+  EOF
 end
 
+#---
 # 4. Run the cookbook
-workflow_execute "sudo chef-client --local-mode --runlist 'recipe[learn_chef_httpd]' --no-color --force-formatter" do
-  cwd repo_dir
-  writer writers['step4']
+#---
+
+# Run chef-client.
+workflow_task '3.4.1' do
+  cwd repo
+  command "sudo chef-client --local-mode --runlist 'recipe[learn_chef_httpd]' --no-color --force-formatter"
+  cache cache
 end
 
-control_group 'lesson3, step4' do
+f4_1 = stdout_file(cache, '3.4.1')
+control_group '3.4' do
   control 'validate output' do
-    describe file(writers['step4'].stdout_path) do
+    describe file(f4_1) do
       its(:content) { should match /Starting Chef Client, version 12\.6/ }
-      its(:content) { should match /Chef Client finished, 0\/4 resources updated in \d+ seconds/ }
+      its(:content) { should match /Chef Client finished, 1\/4 resources updated in \d+ seconds/ }
     end
   end
 end
