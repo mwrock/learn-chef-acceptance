@@ -1,9 +1,9 @@
-# Policyfile.rb - Describe how you want Chef to build your system.
+# Policyfile.rb - Describe how you want LearnChef to build your system.
 #
 # For more information on the Policyfile feature, visit
 # https://github.com/opscode/chef-dk/blob/master/POLICYFILE_README.md
 
-# A name that describes what the system you're building with Chef does.
+# A name that describes what the system you're building with LearnChef does.
 name "workflow"
 
 # Where to find external cookbooks:

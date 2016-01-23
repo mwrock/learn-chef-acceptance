@@ -1,5 +1,5 @@
 {
-  "revision_id": "bcbb528dae89137e9e7fda13a3a95f64b60f56ab5d93981f59455e5441c49c27",
+  "revision_id": "98cd20f558f9077bb82e9a90cf9199cc56cb6e300e19ce365d5664d515524bf3",
   "name": "learn-the-basics-rhel",
   "run_list": [
     "recipe[learn-the-basics-rhel::default]"
@@ -7,18 +7,18 @@
   "cookbook_locks": {
     "learn-the-basics-rhel": {
       "version": "0.1.0",
-      "identifier": "e25472eb19de4106a8809b444769be04aa579595",
-      "dotted_decimal_identifier": "63706197283954241.1874120174487401.208927247013269",
+      "identifier": "bc9ec34e6458735166a6fb10dc781c76e441aa2e",
+      "dotted_decimal_identifier": "53091857292613747.22912340476353656.31296961227310",
       "source": ".",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
-        "remote": "https://github.com/learn-chef/learn-chef-acceptance.git",
-        "revision": "e8406e68c1f01bf1899e58df776596c4f5fbbfcc",
+        "remote": null,
+        "revision": "7dd6ed32d139e95d47527b2b5d53c5087386c3d6",
         "working_tree_clean": false,
-        "published": true,
+        "published": false,
         "synchronized_remote_branches": [
-          "origin/tp/t1-windows"
+
         ]
       },
       "source_options": {
@@ -27,18 +27,18 @@
     },
     "workflow": {
       "version": "0.1.0",
-      "identifier": "5dcffc083691dc102fc7470b4135ce0b5dd2f2b3",
-      "dotted_decimal_identifier": "26405854210593244.4556132564287797.226548214067891",
+      "identifier": "deb68845c2a4577a1d8d4f67b39620885a83ffe7",
+      "dotted_decimal_identifier": "62688141231957079.34372439918490518.35770006241255",
       "source": "../workflow",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
-        "remote": "https://github.com/learn-chef/learn-chef-acceptance.git",
-        "revision": "e8406e68c1f01bf1899e58df776596c4f5fbbfcc",
+        "remote": null,
+        "revision": "7dd6ed32d139e95d47527b2b5d53c5087386c3d6",
         "working_tree_clean": false,
-        "published": true,
+        "published": false,
         "synchronized_remote_branches": [
-          "origin/tp/t1-windows"
+
         ]
       },
       "source_options": {
