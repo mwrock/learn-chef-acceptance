@@ -36,10 +36,10 @@ workflow_task '3.1.2' do
   cache cache
 end
 
-f1_2 = stdout_file(cache, '3.1.2')
+f3_1_2 = stdout_file(cache, '3.1.2')
 control_group '3.1' do
   control 'validate output' do
-    describe file(f1_2) do
+    describe file(f3_1_2) do
       its(:content) { should match /11 directories, 9 files/ }
     end
   end
@@ -63,10 +63,10 @@ workflow_task '3.2.2' do
   cache cache
 end
 
-f2_2 = stdout_file(cache, '3.2.2')
+f3_2_2 = stdout_file(cache, '3.2.2')
 control_group '3.2' do
   control 'validate output' do
-    describe file(f2_2) do
+    describe file(f3_2_2) do
         its(:content) { should match /13 directories, 10 files/ }
     end
   end
@@ -112,10 +112,10 @@ workflow_task '3.4.1' do
   cache cache
 end
 
-f4_1 = stdout_file(cache, '3.4.1')
+f3_4_1 = stdout_file(cache, '3.4.1')
 control_group '3.4' do
   control 'validate output' do
-    describe file(f4_1) do
+    describe file(f3_4_1) do
       its(:content) { should match /Starting Chef Client, version 12\.6/ }
       its(:content) { should match /Chef Client finished, 1\/4 resources updated in \d+ seconds/ }
     end

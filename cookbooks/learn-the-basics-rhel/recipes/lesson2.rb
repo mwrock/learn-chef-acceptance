@@ -40,11 +40,11 @@ workflow_task '2.1.2' do
   cache cache
 end
 
-f1_1 = stdout_file(cache, '2.1.1')
-f1_2 = stdout_file(cache, '2.1.2')
+f2_1_1 = stdout_file(cache, '2.1.1')
+f2_1_2 = stdout_file(cache, '2.1.2')
 control_group '2.1' do
   control 'validate output' do
-    describe file(f1_1) do
+    describe file(f2_1_1) do
       [
         /WARN: No config file/,
         /WARN: No cookbooks directory/,
@@ -55,7 +55,7 @@ control_group '2.1' do
         its(:content) { should match matcher }
       end
     end
-    describe file(f1_2) do
+    describe file(f2_1_2) do
       its(:content) { should match /yum_package\[httpd\] action install \(up to date\)/ }
     end
   end
@@ -83,10 +83,10 @@ workflow_task '2.2.1' do
   cache cache
 end
 
-f2_2 = stdout_file(cache, '2.2.1')
+f2_2_1 = stdout_file(cache, '2.2.1')
 control_group '2.2' do
   control 'validate output' do
-    describe file(f2_2) do
+    describe file(f2_2_1) do
       [
         /^\s{2}\* yum_package\[httpd\] action install \(up to date\)$/,
         /^\s{2}\* service\[httpd\] action enable$/,
@@ -130,10 +130,10 @@ workflow_task '2.3.1' do
   cache cache
 end
 
-f2_3 = stdout_file(cache, '2.3.1')
+f2_3_1 = stdout_file(cache, '2.3.1')
 control_group '2.3' do
   control 'validate output' do
-    describe file(f2_3) do
+    describe file(f2_3_1) do
       its(:content) { should match /^\s{4}\- create new file \/var\/www\/html\/index\.html$/ }
       its(:content) { should match /^\s{4}\- update content in file .+ from none/ }
       its(:content) { should match /^\s{4}\+\<html\>/ }
@@ -152,10 +152,10 @@ workflow_task '2.4.1' do
   cache cache
 end
 
-f2_4 = stdout_file(cache, '2.4.1')
+f2_4_1 = stdout_file(cache, '2.4.1')
 control_group '2.4' do
   control 'validate output' do
-    describe file(f2_4) do
+    describe file(f2_4_1) do
       its(:content) { should match <<-EOF.strip_heredoc.chomp
         <html>
           <body>

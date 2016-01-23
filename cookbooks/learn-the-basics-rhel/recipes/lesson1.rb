@@ -11,7 +11,7 @@ working = File.join(ENV['HOME'], 'chef-repo')
 cache = File.join(ENV['HOME'], '.acceptance/configure-a-resource')
 
 #---
-# 1. Set up your working directory
+# 1.1. Set up your working directory
 #---
 
 directory working do
@@ -71,24 +71,24 @@ step2_matchers = [
   /Chef Client finished, 1\/1 resources updated in \d\d seconds/
 ]
 
-f2_1 = stdout_file(cache, '1.2.1')
-f2_2 = stdout_file(cache, '1.2.2')
-f2_3 = stdout_file(cache, '1.2.3')
-control_group '1.2' do
+f1_2_1 = stdout_file(cache, '1.2.1')
+f1_2_2 = stdout_file(cache, '1.2.2')
+f1_2_3 = stdout_file(cache, '1.2.3')
+control_group '1.1.2' do
   control 'validate output' do
-    describe file(f2_1) do
+    describe file(f1_2_1) do
       step2_matchers.each do |matcher|
         its(:content) { should match matcher }
       end
     end
   end
   control 'validate result' do
-    describe file(f2_2) do
+    describe file(f1_2_2) do
       its(:content) { should match /^hello world$/ }
     end
   end
   control 'validate output' do
-    describe file(f2_3) do
+    describe file(f1_2_3) do
       its(:content) { should match /\* file\[\/tmp\/motd\] action create \(up to date\)$/ }
       its(:content) { should match /Chef Client finished, 0\/1 resources updated in \d\d seconds$/ }
     end
@@ -119,17 +119,17 @@ workflow_task '1.3.2' do
   cache cache
 end
 
-f3_1 = stdout_file(cache, '1.3.1')
-f3_2 = stdout_file(cache, '1.3.2')
-control_group '1.3' do
+f1_3_1 = stdout_file(cache, '1.3.1')
+f1_3_2 = stdout_file(cache, '1.3.2')
+control_group '1.1.3' do
   control 'validate output' do
-    describe file(f3_1) do
+    describe file(f1_3_1) do
       its(:content) { should match /\-hello world/ }
       its(:content) { should match /\+hello chef/ }
     end
   end
   control 'validate result' do
-    describe file(f3_2) do
+    describe file(f1_3_2) do
       its(:content) { should match /^hello chef$/ }
     end
   end
@@ -155,17 +155,17 @@ workflow_task '1.4.2' do
   cache cache
 end
 
-f4_1 = stdout_file(cache, '1.4.1')
-f4_2 = stdout_file(cache, '1.4.2')
-control_group '1.4' do
+f1_4_1 = stdout_file(cache, '1.4.1')
+f1_4_2 = stdout_file(cache, '1.4.2')
+control_group '1.1.4' do
   control 'validate output' do
-    describe file(f4_1) do
+    describe file(f1_4_1) do
       its(:content) { should match /\-hello robots/ }
       its(:content) { should match /\+hello chef/ }
     end
   end
   control 'validate result' do
-    describe file(f4_2) do
+    describe file(f1_4_2) do
       its(:content) { should match /^hello chef$/ }
     end
   end
@@ -195,17 +195,17 @@ workflow_task '1.5.2' do
   cache cache
 end
 
-f5_1 = stdout_file(cache, '1.5.1')
-f5_2 = stderr_file(cache, '1.5.2')
-control_group '1.5' do
+f1_5_1 = stdout_file(cache, '1.5.1')
+f1_5_2 = stderr_file(cache, '1.5.2')
+control_group '1.1.5' do
   control 'validate output' do
-    describe file(f5_1) do
+    describe file(f1_5_1) do
       its(:content) { should match /\s{2}\* file\[\/tmp\/motd\] action delete/ }
       its(:content) { should match /\s{4}\- delete file \/tmp\/motd/ }
     end
   end
   control 'validate result' do
-    describe file(f5_2) do
+    describe file(f1_5_2) do
       its(:content) { should match /\/tmp\/motd: No such file or directory$/ }
     end
   end

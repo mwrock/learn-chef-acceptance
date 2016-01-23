@@ -24,14 +24,14 @@ platforms:
     transport:
       ssh_key: ~/.ssh/tpetchel.pem
       username: root
-  - name: centos-6.5-azure
-    driver:
-      name: azurerm
-    driver_config:
-      subscription_id: 'bacf2c23-fb3f-4dde-bc6e-9d242e21ffe7'
-      location: 'East US'
-      machine_size: 'Standard_D1'
-      image_urn: OpenLogic:CentOS:6.5:latest
+  # - name: centos-6.5-azure
+  #   driver:
+  #     name: azurerm
+  #   driver_config:
+  #     subscription_id: 'bacf2c23-fb3f-4dde-bc6e-9d242e21ffe7'
+  #     location: 'East US'
+  #     machine_size: 'Standard_D1'
+  #     image_urn: OpenLogic:CentOS:6.5:latest
 
 suites:
   - name: default
