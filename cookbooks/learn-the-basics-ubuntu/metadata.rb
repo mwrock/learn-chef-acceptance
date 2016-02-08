@@ -7,3 +7,4 @@ long_description 'Installs/Configures learn-the-basics-ubuntu'
 version '0.1.0'
 
 depends 'workflow'
+depends 'apt', '~> 2.9.2'

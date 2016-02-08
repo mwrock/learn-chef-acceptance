@@ -1,5 +1,5 @@
 {
-  "revision_id": "3094c89ca39db9c7ad7dd314106f908ce59cc25ec53a404e01173795ec2a6065",
+  "revision_id": "6a4577c1c78659f808f46c9099cdd408244e26621d8ac165bc580deda20d03c6",
   "name": "learn-the-basics-ubuntu",
   "run_list": [
     "recipe[learn-the-basics-ubuntu::default]"
@@ -7,14 +7,14 @@
   "cookbook_locks": {
     "learn-the-basics-ubuntu": {
       "version": "0.1.0",
-      "identifier": "b377486d9edec018616b2fa0d18790a79a4a4e1b",
-      "dotted_decimal_identifier": "50515173791686336.6862512429519239.159049522499099",
+      "identifier": "5a5c4982a5780517be56233eef8198362000dfa9",
+      "dotted_decimal_identifier": "25434218698209285.6683201632137089.167358232584105",
       "source": ".",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": null,
-        "revision": "6efc28a13c4ee9db89fc5cbf3fe5ed3d9ca0e92b",
+        "revision": "6208783d01d182e43286926fe4fb789231192032",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
@@ -27,14 +27,14 @@
     },
     "workflow": {
       "version": "0.1.0",
-      "identifier": "de9a9b162942bf3b38cfc7bc9cf0444a5b0c0556",
-      "dotted_decimal_identifier": "62657435712176831.16669488686341360.75086145783126",
+      "identifier": "deb68845c2a4577a1d8d4f67b39620885a83ffe7",
+      "dotted_decimal_identifier": "62688141231957079.34372439918490518.35770006241255",
       "source": "../workflow",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": null,
-        "revision": "6efc28a13c4ee9db89fc5cbf3fe5ed3d9ca0e92b",
+        "revision": "6208783d01d182e43286926fe4fb789231192032",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
@@ -43,6 +43,17 @@
       },
       "source_options": {
         "path": "../workflow"
+      }
+    },
+    "apt": {
+      "version": "2.9.2",
+      "identifier": "aa7652cc9ec61ee4603d984cb5770169987ae0ea",
+      "dotted_decimal_identifier": "47980844033164830.64282112354465143.1553041383658",
+      "cache_key": "apt-2.9.2-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/apt/versions/2.9.2/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/apt/versions/2.9.2/download",
+        "version": "2.9.2"
       }
     }
   },
@@ -61,16 +72,27 @@
       [
         "workflow",
         ">= 0.0.0"
+      ],
+      [
+        "apt",
+        "= 2.9.2"
       ]
     ],
     "dependencies": {
       "workflow (0.1.0)": [
 
       ],
+      "apt (2.9.2)": [
+
+      ],
       "learn-the-basics-ubuntu (0.1.0)": [
         [
           "workflow",
           ">= 0.0.0"
+        ],
+        [
+          "apt",
+          "~> 2.9.2"
         ]
       ]
     }
