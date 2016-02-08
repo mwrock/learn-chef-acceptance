@@ -4,9 +4,6 @@ provisioner:
   client_rb:
     audit_mode: :enabled
 
-verifier:
-  name: inspec
-
 platforms:
   - name: centos-6.5
     driver:
