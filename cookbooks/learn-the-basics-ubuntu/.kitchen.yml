@@ -3,16 +3,30 @@ driver:
   name: vagrant
 
 provisioner:
-  name: policyfile_zero
+  name: chef_zero
   client_rb:
     audit_mode: :enabled
 
-verifier:
-  name: inspec
-
 platforms:
   - name: ubuntu-14.04
+    driver:
+      name: vagrant
+  - name: ubuntu-14.04-aws
+    driver:
+      name: ec2
+      aws_ssh_key_id: tpetchel
+      security_group_ids: ["sg-49896b2e"]
+      image_id: ami-86e0ffe7
+      region: us-west-2
+      instance_type: t1.micro
+      tags:
+        "X-Project": "Learn Chef"
+    transport:
+      ssh_key: ~/.ssh/tpetchel.pem
+      username: ubuntu
 
 suites:
   - name: default
+    run_list:
+      - recipe[learn-the-basics-ubuntu::default]
     attributes:
