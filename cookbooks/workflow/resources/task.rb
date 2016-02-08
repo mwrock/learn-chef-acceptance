@@ -10,7 +10,7 @@ property :cwd, String, required: true
 # directory to write output to.
 property :cache, String, required: false, default: nil
 # the shell to run the command from. options are :bash and :powershell.
-property :shell, Symbol, required: false, default: :bash
+property :shell, Symbol, required: false, default: nil
 
 action :run do
   # Ensure working directory exists.
@@ -18,23 +18,28 @@ action :run do
     recursive true
   end
 
+  options = {}
+
   # Generate final command to run.
-  case shell
+  user_shell = shell || current_shell
+  case user_shell
   when :bash
     # If bash, just pass through.
     cmd = command
+    options[:chdir] = cwd unless cwd.nil?
   when :powershell
     # If powershell, write the command to a temporary script.
-    script_path = ::File.join(Chef::Config[:file_cache_path], 'temp.ps1')
+    script_path = ::File.join(cwd, "#{crc(command)}.ps1")
     file script_path do
       content command
     end
-    cmd = "powershell -File #{script_path}"
+    cmd = "powershell.exe \"& \"\"#{script_path}\"\"\""
+
+    puts "\n\n\n\n\n\n\n\n\n#{cmd}\n\n\n\n\n\n\n\n\n"
+    # Don't set options[:chdir]
   end
 
-  # Run the command.
-  options = {}
-  options[:chdir] = cwd unless cwd.nil?
+  # Run the command.å
   stdout_str, stderr_str, status = Open3.capture3(cmd, options)
 
   # Write the result to disk.

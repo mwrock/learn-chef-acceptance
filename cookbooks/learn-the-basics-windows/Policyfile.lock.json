@@ -1,5 +1,5 @@
 {
-  "revision_id": "02c0f5f7a0d5b2a20697f73ea33e43dc7ac75c4c49df58d7b68b745e929a9603",
+  "revision_id": "9bef30ab4055fb0a46cb3bf3450caca363dae654fbc66beb5aa130da23bbbfd1",
   "name": "learn-the-basics-windows",
   "run_list": [
     "recipe[learn-the-basics-windows::default]"
@@ -7,15 +7,15 @@
   "cookbook_locks": {
     "learn-the-basics-windows": {
       "version": "0.1.0",
-      "identifier": "76e30a907dda071a0836b53d82f17ff719a70d1d",
-      "dotted_decimal_identifier": "33463681765202439.7327380456440561.140699264027933",
+      "identifier": "b80b6fbd1ed1ba4152c61841545b4811ea52edf5",
+      "dotted_decimal_identifier": "51803970256949690.18386884250129499.79241782947317",
       "source": ".",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": null,
-        "revision": "85d99b8340fe5d049f581b248010cf00330a4e7e",
-        "working_tree_clean": true,
+        "revision": "d8f3156c3990f335d5c9f1ecfd799a167812c4eb",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/master"
@@ -27,15 +27,15 @@
     },
     "workflow": {
       "version": "0.1.0",
-      "identifier": "5dcffc083691dc102fc7470b4135ce0b5dd2f2b3",
-      "dotted_decimal_identifier": "26405854210593244.4556132564287797.226548214067891",
+      "identifier": "cba6bfc483a6bca241aaebce5c10fef4b0b13386",
+      "dotted_decimal_identifier": "57322762838189756.45671148583541776.280326889878406",
       "source": "../workflow",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": null,
-        "revision": "85d99b8340fe5d049f581b248010cf00330a4e7e",
-        "working_tree_clean": true,
+        "revision": "d8f3156c3990f335d5c9f1ecfd799a167812c4eb",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/master"
@@ -64,14 +64,14 @@
       ]
     ],
     "dependencies": {
-      "workflow (0.1.0)": [
-
-      ],
       "learn-the-basics-windows (0.1.0)": [
         [
           "workflow",
           ">= 0.0.0"
         ]
+      ],
+      "workflow (0.1.0)": [
+
       ]
     }
   }
