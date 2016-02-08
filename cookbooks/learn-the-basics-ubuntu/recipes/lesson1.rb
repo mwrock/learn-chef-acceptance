@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: learn-the-basics-rhel
+# Cookbook Name:: learn-the-basics-ubuntu
 # Recipe:: lesson1
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
@@ -65,7 +65,6 @@ step2_matchers = [
   /\s{4}\-\-\- \/tmp\/motd/,
   /\s{4}\+\+\+ \/tmp\/\.motd/,
   /\s{4}\+hello world/,
-  /\s{4}\- restore selinux security context/,
   /Running handlers:/,
   /Running handlers complete/,
   /Chef Client finished, 1\/1 resources updated in \d\d seconds/

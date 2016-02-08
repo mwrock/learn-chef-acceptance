@@ -15,3 +15,4 @@ run_list "learn-the-basics-ubuntu::default"
 # Specify a custom source for a single cookbook:
 cookbook "learn-the-basics-ubuntu", path: "."
 cookbook "workflow", path: "../workflow"
+cookbook 'apt', '~> 2.9.2'

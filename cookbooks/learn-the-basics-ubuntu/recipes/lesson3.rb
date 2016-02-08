@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: learn-the-basics-rhel
+# Cookbook Name:: learn-the-basics-ubuntu
 # Recipe:: lesson3
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
@@ -25,7 +25,7 @@ end
 # Create cookbook.
 workflow_task '3.1.1' do
   cwd cookbooks
-  command 'chef generate cookbook learn_chef_httpd'
+  command 'chef generate cookbook learn_chef_apache2'
   cache cache
 end
 
@@ -52,7 +52,7 @@ end
 # Create template.
 workflow_task '3.2.1' do
   cwd cookbooks
-  command 'chef generate template learn_chef_httpd index.html'
+  command 'chef generate template learn_chef_apache2 index.html'
   cache cache
 end
 
@@ -72,7 +72,7 @@ control_group '3.2' do
   end
 end
 
-file File.join(cookbooks, 'learn_chef_httpd/templates/default/index.html.erb') do
+file File.join(cookbooks, 'learn_chef_apache2/templates/default/index.html.erb') do
   content <<-EOF.strip_heredoc
     <html>
       <body>
@@ -87,11 +87,12 @@ end
 #---
 
 # Update recipe.
-file File.join(cookbooks, 'learn_chef_httpd/recipes/default.rb') do
+file File.join(cookbooks, 'learn_chef_apache2/recipes/default.rb') do
   content <<-EOF.strip_heredoc
-    package 'httpd'
+    package 'apache2'
 
-    service 'httpd' do
+    service 'apache2' do
+      supports :status => true
       action [:enable, :start]
     end
 
@@ -108,7 +109,7 @@ end
 # Run chef-client.
 workflow_task '3.4.1' do
   cwd repo
-  command "sudo chef-client --local-mode --runlist 'recipe[learn_chef_httpd]' --no-color --force-formatter"
+  command "sudo chef-client --local-mode --runlist 'recipe[learn_chef_apache2]' --no-color --force-formatter"
   cache cache
 end
 

@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: learn-the-basics-rhel
+# Cookbook Name:: learn-the-basics-ubuntu
 # Recipe:: lesson2
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
@@ -22,7 +22,7 @@ end
 # Write webserver.rb.
 file File.join(working, 'webserver.rb') do
   content <<-EOF.strip_heredoc
-    package 'httpd'
+    package 'apache2'
   EOF
 end
 
@@ -49,14 +49,14 @@ control_group '2.1' do
         /WARN: No config file/,
         /WARN: No cookbooks directory/,
         /Converging 1 resources/,
-        /\* yum_package\[httpd\] action install/,
+        /\* apt_package\[apache2\] action install/,
         /Chef Client finished, 1/
       ].each do |matcher|
         its(:content) { should match matcher }
       end
     end
     describe file(f2_1_2) do
-      its(:content) { should match /yum_package\[httpd\] action install \(up to date\)/ }
+      its(:content) { should match /apt_package\[apache2\] action install \(up to date\)/ }
     end
   end
 end
@@ -68,9 +68,10 @@ end
 # Write webserver.rb.
 file File.join(working, 'webserver.rb') do
   content <<-EOF.strip_heredoc
-    package 'httpd'
+    package 'apache2'
 
-    service 'httpd' do
+    service 'apache2' do
+      supports :status => true
       action [:enable, :start]
     end
   EOF
@@ -88,11 +89,9 @@ control_group '2.2' do
   control 'validate output' do
     describe file(f2_2_1) do
       [
-        /^\s{2}\* yum_package\[httpd\] action install \(up to date\)$/,
-        /^\s{2}\* service\[httpd\] action enable$/,
-        /^\s{4}\- enable service service\[httpd\]$/,
-        /^\s{2}\* service\[httpd\] action start$/,
-        /^\s{4}\- start service service\[httpd\]$/
+        /^\s{2}\* apt_package\[apache2\] action install \(up to date\)$/,
+        /^\s{2}\* service\[apache2\] action enable \(up to date\)$/,
+        /^\s{2}\* service\[apache2\] action start \(up to date\)$/
       ].each do |matcher|
         its(:content) { should match matcher }
       end
@@ -107,9 +106,10 @@ end
 # Write webserver.rb.
 file File.join(working, 'webserver.rb') do
   content <<-EOF.strip_heredoc
-    package 'httpd'
+    package 'apache2'
 
-    service 'httpd' do
+    service 'apache2' do
+      supports :status => true
       action [:enable, :start]
     end
 
@@ -134,9 +134,9 @@ f2_3_1 = stdout_file(cache, '2.3.1')
 control_group '2.3' do
   control 'validate output' do
     describe file(f2_3_1) do
-      its(:content) { should match /^\s{4}\- create new file \/var\/www\/html\/index\.html$/ }
-      its(:content) { should match /^\s{4}\- update content in file .+ from none/ }
-      its(:content) { should match /^\s{4}\+\<html\>/ }
+      its(:content) { should match /^\s{2}\* file\[\/var\/www\/html\/index.html\] action create$/ }
+      its(:content) { should match /^\s{4}\- update content in file/ }
+      its(:content) { should match /^\s{5}\<\/html>/ }
     end
   end
 end
