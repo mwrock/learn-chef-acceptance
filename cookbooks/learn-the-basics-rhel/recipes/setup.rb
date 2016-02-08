@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: learn-the-basics-rhel
-# Recipe:: _setup
+# Recipe:: setup
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
 package 'curl'
@@ -15,7 +15,7 @@ control_group 'validate Chef DK installation' do
   control 'validate version' do
     describe command('chef --version') do
       its (:stdout) { should match /Chef Development Kit Version: 0.10.0/ }
-      its (:stdout) { should match /chef-client version: 12.6.0/ }
+      its (:stdout) { should match /chef-client version: 12.7.0/ }
     end
   end
 end

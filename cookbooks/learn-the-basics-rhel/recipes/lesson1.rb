@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: learn-the-basics-rhel
-# Recipe:: _lesson1
+# Recipe:: lesson1
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
 #---
@@ -52,13 +52,13 @@ end
 step2_matchers = [
   /WARN: No config file found or specified on command line, using command line options\./,
   /WARN: No cookbooks directory found at or above current directory\./,
-  /Starting Chef Client, version 12\.6\.0/,
+  /Starting Chef Client, version 12\.7\.0/,
   /resolving cookbooks for run list: \[\]/,
   /Synchronizing Cookbooks:/,
   /Compiling Cookbooks/,
   /WARN: Node .+ has an empty run list/,
   /Converging 1 resources/,
-  /Recipe: @recipe_files::\/root\/chef\-repo\/hello.rb/,
+  /Recipe: @recipe_files::\/.+\/chef\-repo\/hello.rb/,
   /\s{2}* file\[\/tmp\/motd\] action create/,
   /\s{4}\- create new file \/tmp\/motd/,
   /\s{4}\- update content in file \/tmp\/motd from none to .+/,
@@ -74,7 +74,7 @@ step2_matchers = [
 f1_2_1 = stdout_file(cache, '1.2.1')
 f1_2_2 = stdout_file(cache, '1.2.2')
 f1_2_3 = stdout_file(cache, '1.2.3')
-control_group '1.1.2' do
+control_group '1.2.1' do
   control 'validate output' do
     describe file(f1_2_1) do
       step2_matchers.each do |matcher|

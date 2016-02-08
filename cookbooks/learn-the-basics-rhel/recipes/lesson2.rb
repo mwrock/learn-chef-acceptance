@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: learn-the-basics-rhel
-# Recipe:: _lesson2
+# Recipe:: lesson2
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
 #---
