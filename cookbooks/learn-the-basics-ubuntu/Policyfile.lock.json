@@ -1,5 +1,5 @@
 {
-  "revision_id": "6a4577c1c78659f808f46c9099cdd408244e26621d8ac165bc580deda20d03c6",
+  "revision_id": "726d8c5060f4eb82321cfffb1438c762f1ab370e63df319dbc06bd2cbc2c28a6",
   "name": "learn-the-basics-ubuntu",
   "run_list": [
     "recipe[learn-the-basics-ubuntu::default]"
@@ -7,18 +7,18 @@
   "cookbook_locks": {
     "learn-the-basics-ubuntu": {
       "version": "0.1.0",
-      "identifier": "5a5c4982a5780517be56233eef8198362000dfa9",
-      "dotted_decimal_identifier": "25434218698209285.6683201632137089.167358232584105",
+      "identifier": "50bd57ff0d2de5c69bf0388983b3947415395db8",
+      "dotted_decimal_identifier": "22726183775710693.55903501431702451.163226293198264",
       "source": ".",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": null,
-        "revision": "6208783d01d182e43286926fe4fb789231192032",
+        "revision": "ddbfebff1d8e39fa52a26787d006daf5136af6e6",
         "working_tree_clean": false,
-        "published": true,
+        "published": false,
         "synchronized_remote_branches": [
-          "origin/master"
+
         ]
       },
       "source_options": {
@@ -34,11 +34,11 @@
       "scm_info": {
         "scm": "git",
         "remote": null,
-        "revision": "6208783d01d182e43286926fe4fb789231192032",
+        "revision": "ddbfebff1d8e39fa52a26787d006daf5136af6e6",
         "working_tree_clean": false,
-        "published": true,
+        "published": false,
         "synchronized_remote_branches": [
-          "origin/master"
+
         ]
       },
       "source_options": {
