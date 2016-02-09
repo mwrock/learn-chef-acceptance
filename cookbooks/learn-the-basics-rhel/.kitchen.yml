@@ -1,17 +1,14 @@
 ---
 provisioner:
-  name: policyfile_zero
+  name: chef_zero
   client_rb:
     audit_mode: :enabled
-
-verifier:
-  name: inspec
 
 platforms:
   - name: centos-6.5
     driver:
       name: vagrant
-  - name: centos-6.5-ec2
+  - name: centos-6.5-aws
     driver:
       name: ec2
       aws_ssh_key_id: tpetchel
@@ -35,4 +32,6 @@ platforms:
 
 suites:
   - name: default
+    run_list:
+      - recipe[learn-the-basics-rhel::default]
     attributes:
