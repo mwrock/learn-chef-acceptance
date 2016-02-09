@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: learn-the-basics-ubuntu
+# Cookbook Name:: learn-the-basics-windows
 # Recipe:: lesson2
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
@@ -7,8 +7,10 @@
 # Configure a package and service
 #---
 
-working = File.join(ENV['HOME'], 'chef-repo')
-cache = File.join(ENV['HOME'], '.acceptance/configure-a-package-and-service')
+working = 'C:/Users/Administrator/chef-repo'
+cache = 'C:/Users/Administrator/.acceptance/configure-a-package-and-service'
+
+with_shell :powershell
 
 directory working do
   action [:delete, :create]
@@ -16,27 +18,31 @@ directory working do
 end
 
 #---
-# 1. Install the Apache package
+# 1. Install IIS
 #---
 
 # Write webserver.rb.
 file File.join(working, 'webserver.rb') do
   content <<-EOF.strip_heredoc
-    package 'apache2'
+    powershell_script 'Install IIS' do
+      code 'Add-WindowsFeature Web-Server'
+      guard_interpreter :powershell_script
+      not_if "(Get-WindowsFeature -Name Web-Server).Installed"
+    end
   EOF
 end
 
 # Run chef-client.
 workflow_task '2.1.1' do
   cwd working
-  command 'sudo chef-client --local-mode webserver.rb --no-color --force-formatter'
+  command 'chef-client --local-mode webserver.rb --no-color --force-formatter'
   cache cache
 end
 
 # Run chef-client again.
 workflow_task '2.1.2' do
   cwd working
-  command 'sudo chef-client --local-mode webserver.rb --no-color --force-formatter'
+  command 'chef-client --local-mode webserver.rb --no-color --force-formatter'
   cache cache
 end
 
@@ -49,29 +55,32 @@ control_group '2.1' do
         /WARN: No config file/,
         /WARN: No cookbooks directory/,
         /Converging 1 resources/,
-        /\* apt_package\[apache2\] action install/,
+        /\* powershell_script\[Install IIS\] action run/,
         /Chef Client finished, 1/
       ].each do |matcher|
         its(:content) { should match matcher }
       end
     end
     describe file(f2_1_2) do
-      its(:content) { should match /apt_package\[apache2\] action install \(up to date\)/ }
+      its(:content) { should match /powershell_script\[Install IIS\] action run \(skipped due to not_if\)/ }
     end
   end
 end
 
 #---
-# 2. Start and enable the Apache service
+# 2. Start the World Wide Web Publishing Service
 #---
 
 # Write webserver.rb.
 file File.join(working, 'webserver.rb') do
   content <<-EOF.strip_heredoc
-    package 'apache2'
+    powershell_script 'Install IIS' do
+      code 'Add-WindowsFeature Web-Server'
+      guard_interpreter :powershell_script
+      not_if "(Get-WindowsFeature -Name Web-Server).Installed"
+    end
 
-    service 'apache2' do
-      supports :status => true
+    service 'w3svc' do
       action [:enable, :start]
     end
   EOF
@@ -80,7 +89,7 @@ end
 # Run chef-client.
 workflow_task '2.2.1' do
   cwd working
-  command 'sudo chef-client --local-mode webserver.rb --no-color --force-formatter'
+  command 'chef-client --local-mode webserver.rb --no-color --force-formatter'
   cache cache
 end
 
@@ -89,9 +98,9 @@ control_group '2.2' do
   control 'validate output' do
     describe file(f2_2_1) do
       [
-        /^\s{2}\* apt_package\[apache2\] action install \(up to date\)$/,
-        /^\s{2}\* service\[apache2\] action enable \(up to date\)$/,
-        /^\s{2}\* service\[apache2\] action start \(up to date\)$/
+        /^\s{2}\* powershell_script\[Install IIS\] action run \(skipped due to not_if\)$/,
+        /^\s{2}\* windows_service\[w3svc\] action enable \(up to date\)$/,
+        /^\s{2}\* windows_service\[w3svc\] action start \(up to date\)$/
       ].each do |matcher|
         its(:content) { should match matcher }
       end
@@ -100,20 +109,23 @@ control_group '2.2' do
 end
 
 #---
-# 3. Add a home page
+# 3. Configure the home page
 #---
 
 # Write webserver.rb.
 file File.join(working, 'webserver.rb') do
-  content <<-EOF.strip_heredoc
-    package 'apache2'
+  content <<-'EOF'.strip_heredoc
+    powershell_script 'Install IIS' do
+      code 'Add-WindowsFeature Web-Server'
+      guard_interpreter :powershell_script
+      not_if "(Get-WindowsFeature -Name Web-Server).Installed"
+    end
 
-    service 'apache2' do
-      supports :status => true
+    service 'w3svc' do
       action [:enable, :start]
     end
 
-    file '/var/www/html/index.html' do
+    file 'c:\inetpub\wwwroot\Default.htm' do
       content '<html>
       <body>
         <h1>hello world</h1>
@@ -126,7 +138,7 @@ end
 # Run chef-client.
 workflow_task '2.3.1' do
   cwd working
-  command 'sudo chef-client --local-mode webserver.rb --no-color --force-formatter'
+  command 'chef-client --local-mode webserver.rb --no-color --force-formatter'
   cache cache
 end
 
@@ -134,9 +146,9 @@ f2_3_1 = stdout_file(cache, '2.3.1')
 control_group '2.3' do
   control 'validate output' do
     describe file(f2_3_1) do
-      its(:content) { should match /^\s{2}\* file\[\/var\/www\/html\/index.html\] action create$/ }
+      its(:content) { should match /^\s{2}\* file\[c:\\inetpub\\wwwroot\\Default\.htm\] action create$/ }
       its(:content) { should match /^\s{4}\- update content in file/ }
-      its(:content) { should match /^\s{5}\<\/html>/ }
+      its(:content) { should match /^\s{4}\+\<html\>/ }
     end
   end
 end
@@ -145,10 +157,12 @@ end
 # 4. Confirm your web site is running
 #---
 
-# Run chef-client.
+# Note: The tutorial has you run `(Invoke-WebRequest localhost).Content`, but this will
+# error if the IE first-launch configuration is not complete. This work-around should be fine,
+# as we're not testing iwr.
 workflow_task '2.4.1' do
   cwd working
-  command 'curl localhost'
+  command "(New-Object Net.WebClient).DownloadString('http://localhost')"
   cache cache
 end
 
