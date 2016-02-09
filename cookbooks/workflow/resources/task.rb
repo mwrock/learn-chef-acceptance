@@ -22,15 +22,9 @@ action :run do
   user_shell = (shell == :current) ? current_shell : shell
   case user_shell
   when :bash
-    # If bash, just pass through.
     cmd = command
   when :powershell
-    # If powershell, write the command to a temporary script.
-    script_path = ::File.join(cwd, "#{crc(command)}.ps1")
-    file script_path do
-      content command
-    end
-    cmd = "powershell.exe -Command \"& #{command}\""
+    cmd = "powershell.exe -Command \"#{command}\""
   end
 
   # Run the command.
