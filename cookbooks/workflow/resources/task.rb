@@ -1,5 +1,5 @@
-require 'open3'
 include LearnChef::Workflow
+include Chef::Mixin::ShellOut
 
 # this is used to name the subdirectory where the output (stdout, stderr, exit code) is written.
 property :name, String, name_property: true
@@ -33,9 +33,7 @@ action :run do
   end
 
   # Run the command.
-  options = {}
-  options[:chdir] = cwd unless cwd.nil?
-  stdout_str, stderr_str, status = Open3.capture3(cmd, options)
+  result = shell_out!(cmd, cwd: cwd)
 
   # Write the result to disk.
   unless cache.nil?
@@ -46,15 +44,15 @@ action :run do
 
     # Write stdout.
     file stdout_file(cache, name) do
-      content stdout_str
+      content result.stdout
     end
     # Write stderr.
     file stderr_file(cache, name) do
-      content stderr_str
+      content result.stderr
     end
     # Write exit code.
     file status_file(cache, name) do
-      content status.exitstatus.to_s
+      content result.exitstatus.to_s
     end
     # Write the command (helps with debugging).
     file command_file(cache, name) do
