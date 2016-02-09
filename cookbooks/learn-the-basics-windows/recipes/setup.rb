@@ -1,15 +1,14 @@
 #
-# Cookbook Name:: learn-the-basics-ubuntu
+# Cookbook Name:: learn-the-basics-windows
 # Recipe:: setup
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
-# BUG: This is currently broken.
-# powershell_script 'install Chef DK' do
-#   code <<-EOH
-#   . { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -channel current -project chefdk
-#   EOH
-#   not_if 'Get-Command chef'
-# end
+powershell_script 'install Chef DK' do
+ code <<-EOH.strip_heredoc
+   . { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -channel current -project chefdk
+ EOH
+ not_if 'Get-Command chef'
+end
 
 # BUG: This fails on the first run, but will succeed on a second run. Disabling the check for now.
 # Is there a way to run the install script during provisioning through TK?

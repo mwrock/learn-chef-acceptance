@@ -57,10 +57,10 @@ workflow_task '1.3.3' do
   cache cache
 end
 
-step2_matchers = [
+step3_matchers = [
   /WARN: No config file found or specified on command line, using command line options\./,
   /WARN: No cookbooks directory found at or above current directory\./,
-  /Starting Chef Client, version 12\.7\.0/,
+  /Starting Chef Client, version 12\.6\.0/,
   /resolving cookbooks for run list: \[\]/,
   /Synchronizing Cookbooks:/,
   /Compiling Cookbooks/,
@@ -71,7 +71,7 @@ step2_matchers = [
   /\s{4}\- create new file C:\\Users\\Administrator\\chef-repo\\settings.ini/,
   /\s{4}\- update content in file C:\\Users\\Administrator\\chef-repo\\settings.ini from none to .+/,
   /\s{4}\-\-\- C:\\Users\\Administrator\\chef-repo\\settings.ini/,
-  /\s{4}\+\+\+ C:\\Users\\Administrator\\chef-repo\\settings.ini/,
+  /\s{4}\+\+\+ C:\\Users\\Administrator\\chef-repo\/settings.ini/,
   /\s{4}\+greeting=hello world/,
   /Running handlers:/,
   /Running handlers complete/,
@@ -84,7 +84,7 @@ f1_3_3 = stdout_file(cache, '1.3.3')
 control_group '1.3' do
   control 'validate output' do
     describe file(f1_3_1) do
-      step2_matchers.each do |matcher|
+      step3_matchers.each do |matcher|
         its(:content) { should match matcher }
       end
     end
@@ -131,13 +131,13 @@ f1_4_2 = stdout_file(cache, '1.4.2')
 control_group '1.4' do
   control 'validate output' do
     describe file(f1_4_1) do
-      its(:content) { should match /\-greeing=hello world/ }
-      its(:content) { should match /\+greeing=hello chef/ }
+      its(:content) { should match /\-greeting=hello world/ }
+      its(:content) { should match /\+greeting=hello chef/ }
     end
   end
   control 'validate result' do
     describe file(f1_4_2) do
-      its(:content) { should match /^greeing=hello chef$/ }
+      its(:content) { should match /^greeting=hello chef$/ }
     end
   end
 end
@@ -204,7 +204,7 @@ workflow_task '1.6.2' do
 end
 
 f1_6_1 = stdout_file(cache, '1.6.1')
-f1_6_2 = stderr_file(cache, '1.6.2')
+f1_6_2 = stdout_file(cache, '1.6.2')
 control_group '1.6' do
   control 'validate output' do
     describe file(f1_6_1) do
