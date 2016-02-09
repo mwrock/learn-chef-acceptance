@@ -10,7 +10,7 @@ property :cwd, String, required: true
 # directory to write output to.
 property :cache, String, required: false, default: nil
 # the shell to run the command from. options are :bash and :powershell.
-property :shell, Symbol, required: false, default: :bash
+property :shell, Symbol, required: false, default: :current
 
 action :run do
   # Ensure working directory exists.
@@ -19,7 +19,7 @@ action :run do
   end
 
   # Generate final command to run.
-  user_shell = shell || current_shell
+  user_shell = (shell == :current) ? current_shell : shell
   case user_shell
   when :bash
     # If bash, just pass through.
@@ -30,11 +30,12 @@ action :run do
     file script_path do
       content command
     end
-    cmd = "powershell.exe -File #{script_path}"
+    cmd = "powershell.exe -Command \"& #{command}\""
   end
 
   # Run the command.
-  result = shell_out!(cmd, cwd: cwd)
+  log "Run #{user_shell} command '#{cmd}'"
+  result = shell_out(cmd, cwd: cwd)
 
   # Write the result to disk.
   unless cache.nil?
