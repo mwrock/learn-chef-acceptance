@@ -14,23 +14,63 @@ Each cookbook models a Learn Chef tutorial through Test Kitchen and Chef audit m
 
 ## Usage
 
-Just run `kitchen converge` from any cookbook directory for the scenario you want to validate.
+Just run `kitchen converge` from any cookbook directory for the scenario you want to validate. Specific commands shown below.
 
 ## Requirements
 
 Here are the software requirements for each tutorial's validation cookbook.
 
+For AWS, you'll need the [Test Kitchen EC2 driver](https://github.com/test-kitchen/kitchen-ec2), which you can install by running `chef gem install kitchen-ec2`.
+
+For AWS, you'll also need to modify the `.kitchen.yml` file to use your region, SSH key, security group, and AMI ID. We plan to make this more general.
+
 ### learn-the-basics-rhel
 
-* Vagrant
-* VirtualBox
+#### Vagrant
+
+* Software:
+  * Vagrant
+  * VirtualBox
+* Run it:
+  * `kitchen converge default-centos-65`
+
+#### AWS
+
+* Software:
+  * kitchen-ec2
+* Run it:
+  * `kitchen converge default-centos-65-aws`
 
 ### learn-the-basics-windows
 
-* Vagrant
-* VirtualBox
+#### Vagrant
+
+* Software:
+  * Vagrant
+  * VirtualBox
+* Run it:
+  * `kitchen converge default-windows-2012R2`
+
+#### AWS
+
+* Software:
+  * kitchen-ec2
+* Run it:
+  * `kitchen converge default-windows-2012R2-aws`
 
 ### learn-the-basics-ubuntu
 
-* Vagrant
-* VirtualBox
+#### Vagrant
+
+* Software:
+  * Vagrant
+  * VirtualBox
+* Run it:
+  * `kitchen converge default-ubuntu-1404`
+
+#### AWS
+
+* Software:
+  * kitchen-ec2
+* Run it:
+  * `kitchen converge default-windows-ubuntu-1404`
