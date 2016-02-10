@@ -10,6 +10,11 @@
 working = File.join(ENV['HOME'], 'chef-repo')
 cache = File.join(ENV['HOME'], '.acceptance/configure-a-resource')
 
+workflow_task_options 'Configure a resource' do
+  shell :bash
+  cache cache
+end
+
 #---
 # 1.1. Set up your working directory
 #---
@@ -34,19 +39,16 @@ end
 workflow_task '1.2.1' do
   cwd working
   command 'chef-client --local-mode hello.rb --no-color --force-formatter'
-  cache cache
 end
 
 workflow_task '1.2.2' do
   cwd working
   command 'more /tmp/motd'
-  cache cache
 end
 
 workflow_task '1.2.3' do
   cwd working
   command 'chef-client --local-mode hello.rb --no-color --force-formatter'
-  cache cache
 end
 
 step2_matchers = [
@@ -110,13 +112,11 @@ end
 workflow_task '1.3.1' do
   cwd working
   command 'chef-client --local-mode hello.rb --no-color --force-formatter'
-  cache cache
 end
 
 workflow_task '1.3.2' do
   cwd working
   command 'more /tmp/motd'
-  cache cache
 end
 
 f1_3_1 = stdout_file(cache, '1.3.1')
@@ -146,13 +146,11 @@ end
 workflow_task '1.4.1' do
   cwd working
   command 'chef-client --local-mode hello.rb --no-color --force-formatter'
-  cache cache
 end
 
 workflow_task '1.4.2' do
   cwd working
   command 'more /tmp/motd'
-  cache cache
 end
 
 f1_4_1 = stdout_file(cache, '1.4.1')
@@ -186,13 +184,11 @@ end
 workflow_task '1.5.1' do
   cwd working
   command 'chef-client --local-mode goodbye.rb --no-color --force-formatter'
-  cache cache
 end
 
 workflow_task '1.5.2' do
   cwd working
   command 'more /tmp/motd'
-  cache cache
 end
 
 f1_5_1 = stdout_file(cache, '1.5.1')

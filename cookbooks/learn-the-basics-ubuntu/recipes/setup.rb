@@ -7,7 +7,7 @@ include_recipe 'apt::default'
 package 'curl'
 package 'tree'
 
-chefdk_version = '0.10.0'
+chefdk_version = '0.11.0'
 chef_client_version = '12.7.0'
 
 execute 'install Chef DK' do

@@ -15,7 +15,7 @@ platforms:
       security_group_ids: ["sg-49896b2e"]
       image_id: ami-b6bdde86
       region: us-west-2
-      instance_type: t1.micro
+      instance_type: m3.medium
       tags:
         "X-Project": "Learn Chef"
     transport:

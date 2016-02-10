@@ -11,6 +11,11 @@ repo = File.join(ENV['HOME'], 'chef-repo')
 cookbooks = File.join(repo, 'cookbooks')
 cache = File.join(ENV['HOME'], '.acceptance/make-your-recipe-more-manageable')
 
+workflow_task_options 'Make your recipe more manageable' do
+  shell :bash
+  cache cache
+end
+
 [repo, cookbooks].each do |dir|
   directory dir do
     action [:create]
@@ -26,14 +31,12 @@ end
 workflow_task '3.1.1' do
   cwd cookbooks
   command 'chef generate cookbook learn_chef_httpd'
-  cache cache
 end
 
 # Run tree.
 workflow_task '3.1.2' do
   cwd cookbooks
   command 'tree'
-  cache cache
 end
 
 f3_1_2 = stdout_file(cache, '3.1.2')
@@ -53,14 +56,12 @@ end
 workflow_task '3.2.1' do
   cwd cookbooks
   command 'chef generate template learn_chef_httpd index.html'
-  cache cache
 end
 
 # Run tree.
 workflow_task '3.2.2' do
   cwd cookbooks
   command 'tree'
-  cache cache
 end
 
 f3_2_2 = stdout_file(cache, '3.2.2')
@@ -109,7 +110,6 @@ end
 workflow_task '3.4.1' do
   cwd repo
   command "sudo chef-client --local-mode --runlist 'recipe[learn_chef_httpd]' --no-color --force-formatter"
-  cache cache
 end
 
 f3_4_1 = stdout_file(cache, '3.4.1')

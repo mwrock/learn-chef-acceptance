@@ -7,3 +7,4 @@ long_description 'Installs/Configures learn-the-basics-rhel'
 version '0.1.0'
 
 depends 'workflow'
+depends 'sudo', '~> 2.9.0'
