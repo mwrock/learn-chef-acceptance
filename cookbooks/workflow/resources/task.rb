@@ -10,7 +10,9 @@ property :cwd, String, required: true
 # directory to write output to.
 property :cache, String, required: false, default: nil
 # the shell to run the command from. options are :bash and :powershell.
-property :shell, Symbol, required: false, default: :bash
+property :shell, Symbol, required: false, default: :current
+# a Hash of environment variables to set before the command is run.
+property :environment, Hash, required: false, default: {}
 
 action :run do
   # Ensure working directory exists.
@@ -18,44 +20,43 @@ action :run do
     recursive true
   end
 
+  # Override anything mentioned in with_task_options.
+  resolved_shell = (shell == :current) ? task_options[:shell] : shell
+  resolved_environment = (environment.empty?) ? task_options[:environment] : environment
+  resolved_cache = (cache.nil?) ? task_options[:cache] : cache
+
   # Generate final command to run.
-  case shell
+  case resolved_shell
   when :bash
-    # If bash, just pass through.
     cmd = command
   when :powershell
-    # If powershell, write the command to a temporary script.
-    script_path = ::File.join(Chef::Config[:file_cache_path], 'temp.ps1')
-    file script_path do
-      content command
-    end
-    cmd = "powershell -File #{script_path}"
+    cmd = "powershell.exe -Command \"#{command}\""
   end
 
   # Run the command.
-  result = shell_out!(cmd, cwd: cwd)
+  result = shell_out(cmd, cwd: cwd, environment: resolved_environment)
 
   # Write the result to disk.
-  unless cache.nil?
+  unless resolved_cache.nil?
     # Ensure cache directory exists.
-    directory ::File.join(cache, name) do
+    directory ::File.join(resolved_cache, name) do
       recursive true
     end
 
     # Write stdout.
-    file stdout_file(cache, name) do
+    file stdout_file(resolved_cache, name) do
       content result.stdout
     end
     # Write stderr.
-    file stderr_file(cache, name) do
+    file stderr_file(resolved_cache, name) do
       content result.stderr
     end
     # Write exit code.
-    file status_file(cache, name) do
+    file status_file(resolved_cache, name) do
       content result.exitstatus.to_s
     end
     # Write the command (helps with debugging).
-    file command_file(cache, name) do
+    file command_file(resolved_cache, name) do
       content command
     end
   end

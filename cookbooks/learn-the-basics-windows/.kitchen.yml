@@ -2,22 +2,35 @@
 driver:
   name: vagrant
 
-transport:
-  username: Administrator
-  password: Pass@word1
-  
 provisioner:
   name: chef_zero
   client_rb:
     audit_mode: :enabled
 
-verifier:
-  name: inspec
-
 platforms:
   - name: windows-2012R2
+    driver:
+      name: vagrant
+      customize:
+        memory: 2048
     driver_config:
       box: mwrock/Windows2012R2
+    transport:
+      username: Administrator
+      password: Pass@word1
+  - name: windows-2012R2-aws
+    driver:
+      name: ec2
+      aws_ssh_key_id: tpetchel
+      security_group_ids: ["sg-0819c86f"]
+      image_id: ami-83a5bce2
+      region: us-west-2
+      instance_type: t2.medium
+      tags:
+        "X-Project": "Learn Chef"
+    transport:
+      ssh_key: /Users/thomaspetchel/.ssh/tpetchel.pem
+      username: Administrator
 
 suites:
   - name: default
