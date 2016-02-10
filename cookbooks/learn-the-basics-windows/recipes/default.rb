@@ -6,6 +6,6 @@
 Chef::Recipe.send(:include, LearnChef::Workflow)
 
 include_recipe 'learn-the-basics-windows::setup'
-#include_recipe 'learn-the-basics-windows::lesson1'
+include_recipe 'learn-the-basics-windows::lesson1'
 include_recipe 'learn-the-basics-windows::lesson2'
-#include_recipe 'learn-the-basics-windows::lesson3'
+include_recipe 'learn-the-basics-windows::lesson3'

@@ -5,9 +5,10 @@ driver:
 transport:
   username: Administrator
   password: Pass@word1
-  
+
 provisioner:
   name: chef_zero
+  #chef_omnibus_install_options: -P chefdk
   client_rb:
     audit_mode: :enabled
 
@@ -16,6 +17,9 @@ verifier:
 
 platforms:
   - name: windows-2012R2
+    driver:
+      customize:
+        memory: 2048
     driver_config:
       box: mwrock/Windows2012R2
 

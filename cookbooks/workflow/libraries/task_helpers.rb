@@ -1,17 +1,11 @@
 module LearnChef module Workflow
-  def with_shell(shell)
-    @@current_shell = shell
+  @@task_options = {}
+
+  def assign_task_options(options)
+    @@task_options = options
   end
 
-  def current_shell
-    @@current_shell || @@default_shell
+  def task_options
+    @@task_options
   end
-
-  def crc(s)
-    require 'zlib'
-    Zlib.crc32 s
-  end
-
-private
-  @@default_shell = 'bash'
 end; end

@@ -10,7 +10,10 @@
 working = 'C:/Users/Administrator/chef-repo'
 cache = 'C:/Users/Administrator/.acceptance/configure-a-resource'
 
-with_shell :powershell
+workflow_task_options 'Configure a resource' do
+  shell :powershell
+  cache cache
+end
 
 #---
 # 1. Ensure you have Administrator privileges
@@ -32,8 +35,8 @@ end
 #---
 
 file File.join(working, 'hello.rb') do
-  content <<-EOF.strip_heredoc
-    file 'C:\\Users\\Administrator\\chef-repo\\settings.ini' do
+  content <<-'EOF'.strip_heredoc
+    file 'C:\Users\Administrator\chef-repo\settings.ini' do
       content 'greeting=hello world'
     end
   EOF
@@ -42,25 +45,22 @@ end
 workflow_task '1.3.1' do
   cwd working
   command 'chef-client --local-mode hello.rb --no-color --force-formatter'
-  cache cache
 end
 
 workflow_task '1.3.2' do
   cwd working
   command 'Get-Content settings.ini'
-  cache cache
 end
 
 workflow_task '1.3.3' do
   cwd working
   command 'chef-client --local-mode hello.rb --no-color --force-formatter'
-  cache cache
 end
 
 step3_matchers = [
   /WARN: No config file found or specified on command line, using command line options\./,
   /WARN: No cookbooks directory found at or above current directory\./,
-  /Starting Chef Client, version 12\.6\.0/,
+  /Starting Chef Client, version 12\.7\.0/,
   /resolving cookbooks for run list: \[\]/,
   /Synchronizing Cookbooks:/,
   /Compiling Cookbooks/,
@@ -107,8 +107,8 @@ end
 #---
 
 file File.join(working, 'hello.rb') do
-  content <<-EOF.strip_heredoc
-    file 'C:\\Users\\Administrator\\chef-repo\\settings.ini' do
+  content <<-'EOF'.strip_heredoc
+    file 'C:\Users\Administrator\chef-repo\settings.ini' do
       content 'greeting=hello chef'
     end
   EOF
@@ -117,13 +117,11 @@ end
 workflow_task '1.4.1' do
   cwd working
   command 'chef-client --local-mode hello.rb --no-color --force-formatter'
-  cache cache
 end
 
 workflow_task '1.4.2' do
   cwd working
   command 'Get-Content settings.ini'
-  cache cache
 end
 
 f1_4_1 = stdout_file(cache, '1.4.1')
@@ -154,13 +152,11 @@ end
 workflow_task '1.5.1' do
   cwd working
   command 'chef-client --local-mode hello.rb --no-color --force-formatter'
-  cache cache
 end
 
 workflow_task '1.5.2' do
   cwd working
   command 'Get-Content settings.ini'
-  cache cache
 end
 
 f1_5_1 = stdout_file(cache, '1.5.1')
@@ -184,8 +180,8 @@ end
 #---
 
 file File.join(working, 'goodbye.rb') do
-  content <<-EOF.strip_heredoc
-    file 'C:\\Users\\Administrator\\chef-repo\\settings.ini' do
+  content <<-'EOF'.strip_heredoc
+    file 'C:\Users\Administrator\chef-repo\settings.ini' do
       action :delete
     end
   EOF
@@ -194,13 +190,11 @@ end
 workflow_task '1.6.1' do
   cwd working
   command 'chef-client --local-mode goodbye.rb --no-color --force-formatter'
-  cache cache
 end
 
 workflow_task '1.6.2' do
   cwd working
   command 'Test-Path settings.ini'
-  cache cache
 end
 
 f1_6_1 = stdout_file(cache, '1.6.1')

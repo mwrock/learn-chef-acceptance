@@ -10,7 +10,10 @@
 working = 'C:/Users/Administrator/chef-repo'
 cache = 'C:/Users/Administrator/.acceptance/configure-a-package-and-service'
 
-with_shell :powershell
+workflow_task_options 'Configure a package and service' do
+  shell :powershell
+  cache cache
+end
 
 directory working do
   action [:delete, :create]
@@ -36,14 +39,12 @@ end
 workflow_task '2.1.1' do
   cwd working
   command 'chef-client --local-mode webserver.rb --no-color --force-formatter'
-  cache cache
 end
 
 # Run chef-client again.
 workflow_task '2.1.2' do
   cwd working
   command 'chef-client --local-mode webserver.rb --no-color --force-formatter'
-  cache cache
 end
 
 f2_1_1 = stdout_file(cache, '2.1.1')
@@ -90,7 +91,6 @@ end
 workflow_task '2.2.1' do
   cwd working
   command 'chef-client --local-mode webserver.rb --no-color --force-formatter'
-  cache cache
 end
 
 f2_2_1 = stdout_file(cache, '2.2.1')
@@ -139,7 +139,6 @@ end
 workflow_task '2.3.1' do
   cwd working
   command 'chef-client --local-mode webserver.rb --no-color --force-formatter'
-  cache cache
 end
 
 f2_3_1 = stdout_file(cache, '2.3.1')
@@ -163,7 +162,6 @@ end
 workflow_task '2.4.1' do
   cwd working
   command "(New-Object Net.WebClient).DownloadString('http://localhost')"
-  cache cache
 end
 
 f2_4_1 = stdout_file(cache, '2.4.1')

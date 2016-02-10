@@ -7,3 +7,4 @@ long_description 'Installs/Configures learn-the-basics-windows'
 version '0.1.0'
 
 depends 'workflow'
+depends 'windows', '~> 1.39.1'
