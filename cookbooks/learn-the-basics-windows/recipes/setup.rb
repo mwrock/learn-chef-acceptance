@@ -3,6 +3,7 @@
 # Recipe:: setup
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
+
 unless node['use_system_chef']
   powershell_script 'install Chef DK' do
    code <<-EOH.strip_heredoc
