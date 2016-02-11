@@ -60,7 +60,7 @@ end
 step3_matchers = [
   /WARN: No config file found or specified on command line, using command line options\./,
   /WARN: No cookbooks directory found at or above current directory\./,
-  /Starting Chef Client, version 12\.7\.0/,
+  /Starting Chef Client, version /,
   /resolving cookbooks for run list: \[\]/,
   /Synchronizing Cookbooks:/,
   /Compiling Cookbooks/,
