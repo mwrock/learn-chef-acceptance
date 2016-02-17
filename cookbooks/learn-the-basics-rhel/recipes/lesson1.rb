@@ -64,6 +64,8 @@ step2_matchers = [
   /\s{2}* file\[\/tmp\/motd\] action create/,
   /\s{4}\- create new file \/tmp\/motd/,
   /\s{4}\- update content in file \/tmp\/motd from none to .+/,
+  /\s{4}\-\-\- \/tmp\/motd/,
+  /\s{4}\+\+\+ \/tmp\/\.(chef-)?motd/,
   /\s{4}\+hello world/,
   /\s{4}\- restore selinux security context/,
   /Running handlers:/,
