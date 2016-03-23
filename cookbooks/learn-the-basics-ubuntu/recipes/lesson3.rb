@@ -33,6 +33,8 @@ workflow_task '3.1.1' do
   command 'chef generate cookbook learn_chef_apache2'
 end
 
+package 'tree'
+
 # Run tree.
 workflow_task '3.1.2' do
   cwd cookbooks
@@ -90,6 +92,11 @@ end
 # Update recipe.
 file File.join(cookbooks, 'learn_chef_apache2/recipes/default.rb') do
   content <<-EOF.strip_heredoc
+    apt_update 'Update the apt cache daily' do
+      frequency 86_400
+      action :periodic
+    end
+
     package 'apache2'
 
     service 'apache2' do
@@ -117,8 +124,8 @@ f3_4_1 = stdout_file(cache, '3.4.1')
 control_group '3.4' do
   control 'validate output' do
     describe file(f3_4_1) do
-      its(:content) { should match /Starting Chef Client, version 12\.7/ }
-      its(:content) { should match /Chef Client finished, 1\/4 resources updated in \d+ seconds/ }
+      its(:content) { should match /Starting Chef Client, version/ }
+      its(:content) { should match /Chef Client finished, 1\/5 resources updated in \d+ seconds/ }
     end
   end
 end

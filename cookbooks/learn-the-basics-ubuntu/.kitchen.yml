@@ -30,3 +30,9 @@ suites:
     run_list:
       - recipe[learn-the-basics-ubuntu::default]
     attributes:
+      workflow:
+        packages:
+          chef_dk:
+            channel: stable
+            chefdk_version: 0.11
+            chef_client_version: 12.7
