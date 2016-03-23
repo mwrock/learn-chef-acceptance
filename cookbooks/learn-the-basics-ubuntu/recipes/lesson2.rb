@@ -27,6 +27,11 @@ end
 # Write webserver.rb.
 file File.join(working, 'webserver.rb') do
   content <<-EOF.strip_heredoc
+    apt_update 'Update the apt cache daily' do
+      frequency 86_400
+      action :periodic
+    end
+
     package 'apache2'
   EOF
 end
@@ -51,9 +56,9 @@ control_group '2.1' do
       [
         /WARN: No config file/,
         /WARN: No cookbooks directory/,
-        /Converging 1 resources/,
+        /Converging 2 resources/,
         /\* apt_package\[apache2\] action install/,
-        /Chef Client finished, 1/
+        /Chef Client finished, 3/
       ].each do |matcher|
         its(:content) { should match matcher }
       end
@@ -71,6 +76,11 @@ end
 # Write webserver.rb.
 file File.join(working, 'webserver.rb') do
   content <<-EOF.strip_heredoc
+    apt_update 'Update the apt cache daily' do
+      frequency 86_400
+      action :periodic
+    end
+
     package 'apache2'
 
     service 'apache2' do
@@ -108,6 +118,11 @@ end
 # Write webserver.rb.
 file File.join(working, 'webserver.rb') do
   content <<-EOF.strip_heredoc
+    apt_update 'Update the apt cache daily' do
+      frequency 86_400
+      action :periodic
+    end
+
     package 'apache2'
 
     service 'apache2' do
@@ -145,6 +160,7 @@ end
 #---
 # 4. Confirm your web site is running
 #---
+package 'curl'
 
 # Run chef-client.
 workflow_task '2.4.1' do
