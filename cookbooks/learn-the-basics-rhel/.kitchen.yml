@@ -5,17 +5,17 @@ provisioner:
     audit_mode: :enabled
 
 platforms:
-  - name: centos-6.5
+  - name: centos-7.2
     driver:
       name: vagrant
-  - name: centos-6.5-aws
+  - name: centos-7.2-aws
     driver:
       name: ec2
       aws_ssh_key_id: tpetchel
       security_group_ids: ["sg-49896b2e"]
-      image_id: ami-b6bdde86
+      image_id: ami-d2c924b2
       region: us-west-2
-      instance_type: m3.medium
+      instance_type: t2.micro
       tags:
         "X-Project": "Learn Chef"
     transport:
