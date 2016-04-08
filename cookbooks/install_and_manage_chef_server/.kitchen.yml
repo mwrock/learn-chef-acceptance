@@ -1,0 +1,36 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: centos-7.2
+
+suites:
+  - name: server
+    driver:
+      customize:
+        memory: 2048
+      vm_hostname: chef-server.local
+      network:
+        - ["private_network", {ip: "192.168.88.88"}]
+    run_list:
+      - role[base]
+      - recipe[install_and_manage_chef_server::server]
+    attributes:
+  - name: node
+    driver:
+      vm_hostname: node-1.local
+      network:
+        - ["private_network", {ip: "192.168.88.89"}]
+    run_list:
+      - role[base]
+      - recipe[install_and_manage_chef_server::node]
+    attributes:
+  - name: workstation
+    run_list:
+      - role[base]
+      - recipe[install_and_manage_chef_server::workstation]
+    attributes:

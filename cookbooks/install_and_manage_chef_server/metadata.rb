@@ -1,0 +1,13 @@
+name 'install_and_manage_chef_server'
+maintainer 'The Authors'
+maintainer_email 'you@example.com'
+license 'all_rights'
+description 'Installs/Configures install_and_manage_chef_server'
+long_description 'Installs/Configures install_and_manage_chef_server'
+version '0.1.0'
+
+depends 'workflow'
+depends 'ntp', '~> 1.11.0'
+depends 'selinux', '~> 0.9.0'
+depends 'sshpass', '~> 1.0.0'
+depends 'hostsfile', '~> 2.4.5'
