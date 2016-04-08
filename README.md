@@ -11,6 +11,7 @@ Each cookbook models a Learn Chef tutorial through Test Kitchen and Chef audit m
 * `learn-the-basics-rhel`: [Learn the Chef basics on Red Hat Enterprise Linux](https://learn.chef.io/learn-the-basics/rhel/)
 * `learn-the-basics-windows`: [Learn the Chef basics on Windows Server](https://learn.chef.io/learn-the-basics/windows/)
 * `learn-the-basics-ubuntu`: [Learn the Chef basics on Ubuntu](https://learn.chef.io/learn-the-basics/ubuntu/)
+* `install_and_manage_chef_server`: [Install and manage your own Chef server](https://learn.chef.io/install-and-manage-your-own-chef-server/linux/)
 
 ## Usage
 
@@ -74,3 +75,13 @@ For AWS, you'll also need to modify the `.kitchen.yml` file to use your region, 
   * kitchen-ec2
 * Run it:
   * `kitchen converge default-windows-ubuntu-1404`
+
+### install_and_manage_chef_server
+
+#### Vagrant
+
+  * Software:
+    * Vagrant
+    * VirtualBox
+  * Run it:
+    * `kitchen converge`
