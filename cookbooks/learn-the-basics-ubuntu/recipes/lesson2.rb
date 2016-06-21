@@ -58,7 +58,7 @@ control_group '2.1' do
         /WARN: No cookbooks directory/,
         /Converging 2 resources/,
         /\* apt_package\[apache2\] action install/,
-        /Chef Client finished, 3/
+        /Chef Client finished/
       ].each do |matcher|
         its(:content) { should match matcher }
       end
